@@ -5,6 +5,7 @@ import { Product } from 'src/app/demo/api/product';
 import { CustomerService } from 'src/app/demo/service/customer.service';
 import { ProductService } from 'src/app/demo/service/product.service';
 import { StorageService } from 'src/app/demo/service/storage.service';
+import { ProductItemDTO } from 'src/app/layout/models/product';
 import { ProductModelItem } from 'src/app/layout/models/productModelItem';
 
 interface expandedRows {
@@ -105,6 +106,14 @@ export class ProductListComponent implements OnInit, OnDestroy {
                     }
                 }
             );
+    }
+
+    getProductsByModelId(model: ProductModelItem) {
+        console.log("getProductsByModelId", model)
+        this.productService.getAllProducts(model.id)
+        .subscribe((products: ProductItemDTO[]) => {
+            model.products = [... products]
+        })
     }
 
     onSort() {

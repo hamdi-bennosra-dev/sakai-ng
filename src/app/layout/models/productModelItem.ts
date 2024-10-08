@@ -1,3 +1,5 @@
+import { ProductItemDTO } from "./product";
+
 export interface ProductModelItem {
     id: string;            // UUID of the product model
     name: string;         // Name of the product model
@@ -9,5 +11,6 @@ export interface ProductModelItem {
     minPrice: number | null; // Minimum price of the products (can be null)
     maxPrice: number | null; // Maximum price of the products (can be null)
     rating: number | null;
-    img: string
+    img: string;
+    products: ProductItemDTO[];
 }

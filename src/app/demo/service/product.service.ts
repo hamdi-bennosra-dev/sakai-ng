@@ -4,15 +4,20 @@ import { Product } from '../api/product';
 import { ProductModelItem } from 'src/app/layout/models/productModelItem';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ProductItemDTO } from 'src/app/layout/models/product';
 
 @Injectable()
 export class ProductService {
-    private apiUrl = environment.apiUrl + 'product/models'; // Your backend API endpoint
+    private apiUrl = environment.apiUrl + 'product'; // Your backend API endpoint
 
     constructor(private http: HttpClient) { }
 
     getAllProductModels(): Observable<ProductModelItem[]> {
-      return this.http.get<ProductModelItem[]>(this.apiUrl);
+        return this.http.get<ProductModelItem[]>(this.apiUrl + "/models");
+    }
+
+    getAllProducts(uuid: string): Observable<ProductItemDTO[]> {
+        return this.http.get<ProductItemDTO[]>(this.apiUrl + "/by-model/" + uuid);
     }
 
     getProductsSmall() {

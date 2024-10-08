@@ -14,6 +14,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { ToastModule } from 'primeng/toast';
 import { SliderModule } from 'primeng/slider';
 import { RatingModule } from 'primeng/rating';
+import { ProductListComponent } from '../../products/product-list/product-list.component';
 
 @NgModule({
 	imports: [
@@ -32,6 +33,6 @@ import { RatingModule } from 'primeng/rating';
 		ProgressBarModule,
 		ToastModule
 	],
-	declarations: [TableDemoComponent]
+	declarations: [ProductListComponent]
 })
 export class TableDemoModule { }

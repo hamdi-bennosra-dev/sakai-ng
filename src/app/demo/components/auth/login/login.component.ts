@@ -67,7 +67,6 @@ export class LoginComponent implements OnInit, OnDestroy {
                     }
                 },
                 error: (err) => {
-                    console.log(err);
                     this.hasError = true;
                     this.toastService.showError('Login failed. Please check your credentials.');
                 },

@@ -9,4 +9,5 @@ export interface ProductModelItem {
     minPrice: number | null; // Minimum price of the products (can be null)
     maxPrice: number | null; // Maximum price of the products (can be null)
     rating: number | null;
+    img: string
 }

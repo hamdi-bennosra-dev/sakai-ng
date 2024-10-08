@@ -4,6 +4,7 @@ import { Customer, Representative } from 'src/app/demo/api/customer';
 import { Product } from 'src/app/demo/api/product';
 import { CustomerService } from 'src/app/demo/service/customer.service';
 import { ProductService } from 'src/app/demo/service/product.service';
+import { StorageService } from 'src/app/demo/service/storage.service';
 import { ProductModelItem } from 'src/app/layout/models/productModelItem';
 
 interface expandedRows {
@@ -47,7 +48,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
     @ViewChild('filter') filter!: ElementRef;
 
-    constructor(private customerService: CustomerService, private productService: ProductService) { }
+    constructor(private customerService: CustomerService,
+        private productService: ProductService,
+        private storageService: StorageService
+    ) { }
 
     ngOnDestroy(): void {
         // throw new Error('Method not implemented.');
@@ -91,6 +95,13 @@ export class ProductListComponent implements OnInit, OnDestroy {
                 {
                     next: (data: ProductModelItem[]) => {
                         this.products = [...data]
+                        this.products.forEach((p: ProductModelItem) => {
+                            this.storageService.downloadFile('models', p.id)
+                                .subscribe((blob: Blob) => {
+                                    const url = window.URL.createObjectURL(blob);
+                                    p.img = url; // Set the image URL to display
+                                })
+                        })
                     }
                 }
             );

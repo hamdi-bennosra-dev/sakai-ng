@@ -35,8 +35,9 @@
                             [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
                     </td>
                     <td style="min-width: 12rem;">{{product.name}}</td>
-                    <td><img [src]="'assets/demo/images/product/' + product.image" [alt]="product.name" width="100"
-                            class="shadow-4" /></td>
+                    <td>
+                        <img class="shadow-4" [src]="product.img" [alt]="product.name" width="100" />
+                    </td>
                     <td style="min-width: 12rem;">{{product.brandName?.toLowerCase()}}</td>
                     <td style="min-width: 8rem;">{{product.minPrice | currency:'USD'}} - {{product.maxPrice |
                         currency:'USD'}}</td>
@@ -45,8 +46,11 @@
                         <!-- <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating> -->
                     </td>
                     <td>
-                        <span [class]="'product-badge status-' + ((product.totalCount > 0) ? 'INSTOCK' : 'OUTOFSTOCK').toLowerCase()">
-                            {{(product.totalCount > 0) ? 'INSTOCK' : 'OUTOFSTOCK'}}
+                        <span
+                            [class]="'product-badge status-' + ((product.totalCount > 0) ? 'INSTOCK' : 'OUTOFSTOCK').toLowerCase()">
+                            {{
+                                ((product.totalCount > 0) ? 'INSTOCK' : 'OUTOFSTOCK').toLowerCase()
+                            }}
                         </span>
                     </td>
                 </tr>

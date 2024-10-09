@@ -55,7 +55,7 @@ export class ProductListComponent implements OnInit {
     openProductModelEdit(product?: ProductModelItem) {
         this.ref = this.dialogService.open(ProductModelDialogComponent, {
             header: product
-                ? `Edit ${product.name}`
+                ? `Edit Model - ${product.name}`
                 : 'Create a new Product Model',
             modal: true,
             data: {
@@ -64,6 +64,8 @@ export class ProductListComponent implements OnInit {
             },
         });
 
-        this.ref.onClose.subscribe(() => this.getAll());
+        this.ref.onClose.subscribe((success: boolean) => {
+            if (success) this.getAll();
+        });
     }
 }

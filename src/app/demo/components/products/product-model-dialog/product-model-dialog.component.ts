@@ -88,20 +88,13 @@ export class ProductModelDialogComponent {
                 : this.productService.saveProductModel(product);
 
             observable.subscribe((result: ProductModel) => {
-                if (this.file) {
-                    this.storageService
-                        .uploadFile('models', result.id, this.file)
-                        .subscribe({
-                            next: (val: string) => {
-                                if (val) this.dialogRef.close();
-                            },
-                            error: (err) => {
-                                if (err.text) this.dialogRef.close();
-                            },
-                        });
-                } else {
-                    this.dialogRef.close();
-                }
+                if (this.file)
+                    this.storageService.uploadFile(
+                        'models',
+                        result.id,
+                        this.file
+                    );
+                this.dialogRef.close(true);
             });
         }
     }

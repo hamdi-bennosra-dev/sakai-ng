@@ -1,88 +1,185 @@
-<div class="col-12">
-    <div class="card">
-        <h5>Product Models</h5>
-        <p-toast></p-toast>
-        <p-table #dt1 [value]="products" dataKey="name" [expandedRowKeys]="expandedRows" [globalFilterFields]="['name']"
-            responsiveLayout="scroll">
-            <ng-template pTemplate="caption">
-                <div class="flex justify-content-between flex-column sm:flex-row">
-                    <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
-                        (click)="clear(dt1)"></button>
-                    <span class="p-input-icon-left mb-2">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)"
-                            placeholder="Search Keyword" class="w-full" />
+<div class="card">
+    <h5>Product Models</h5>
+    <p-toast></p-toast>
+    <p-table
+        #dt1
+        [value]="products"
+        dataKey="name"
+        [globalFilterFields]="['name']"
+        responsiveLayout="scroll"
+    >
+        <ng-template pTemplate="caption">
+            <div class="flex justify-content-between flex-column sm:flex-row">
+                <button
+                    pButton
+                    label="Clear"
+                    class="p-button-outlined mb-2"
+                    icon="pi pi-filter-slash"
+                    (click)="clear(dt1)"
+                ></button>
+                <span class="p-input-icon-left mb-2">
+                    <i class="pi pi-search"></i>
+                    <input
+                        pInputText
+                        type="text"
+                        #filter
+                        (input)="onGlobalFilter(dt1, $event)"
+                        placeholder="Search Keyword"
+                        class="w-full"
+                    />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem"></th>
+                <th pSortableColumn="brandName">
+                    Brand <p-sortIcon field="brandName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="name">
+                    Model <p-sortIcon field="name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="minPrice">
+                    Price <p-sortIcon field="minPrice"></p-sortIcon>
+                </th>
+                <th pSortableColumn="type">
+                    Category <p-sortIcon field="type"></p-sortIcon>
+                </th>
+                <th pSortableColumn="totalCount">
+                    Status <p-sortIcon field="totalCount"></p-sortIcon>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product let-expanded="expanded">
+            <tr>
+                <td>
+                    <button
+                        type="button"
+                        pButton
+                        pRipple
+                        [pRowToggler]="product"
+                        class="p-button-text p-button-rounded p-button-plain"
+                        [icon]="
+                            expanded
+                                ? 'pi pi-chevron-down'
+                                : 'pi pi-chevron-right'
+                        "
+                        (click)="
+                            !expanded ? getProductsByModelId(product) : null
+                        "
+                    ></button>
+                </td>
+                <td style="min-width: 12rem">
+                    {{ product.brandName | titlecase }}
+                </td>
+                <td style="min-width: 16rem">
+                    <div class="flex align-items-center">
+                        <span class="flex-1">{{
+                            product.name | titlecase
+                        }}</span>
+                        <img
+                            *ngIf="product.img"
+                            class="shadow-4 flex-2"
+                            [src]="product.img"
+                            [alt]="product.name"
+                            width="100"
+                        />
+                    </div>
+                </td>
+                <td style="min-width: 8rem">
+                    {{ product.minPrice | currency : "USD" }} -
+                    {{ product.maxPrice | currency : "USD" }}
+                </td>
+                <td style="min-width: 10rem">{{ product.type | titlecase }}</td>
+                <td>
+                    <span
+                        [class]="
+                            'product-badge status-' +
+                            (product.totalCount > 0
+                                ? 'INSTOCK'
+                                : 'OUTOFSTOCK'
+                            ).toLowerCase()
+                        "
+                    >
+                        {{
+                            (product.totalCount > 0
+                                ? "INSTOCK"
+                                : "OUTOFSTOCK"
+                            ).toLowerCase()
+                        }}
                     </span>
-                </div>
-            </ng-template>
-            <ng-template pTemplate="header">
-                <tr>
-                    <th style="width: 3rem"></th>
-                    <th pSortableColumn="brandName">Brand <p-sortIcon field="brandName"></p-sortIcon></th>
-                    <th pSortableColumn="name">Model <p-sortIcon field="name"></p-sortIcon></th>
-                    <th pSortableColumn="minPrice">Price <p-sortIcon field="minPrice"></p-sortIcon></th>
-                    <th pSortableColumn="type">Category <p-sortIcon field="type"></p-sortIcon></th>
-                    <th pSortableColumn="totalCount">Status <p-sortIcon field="totalCount"></p-sortIcon></th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-product let-expanded="expanded">
-                <tr>
-                    <td>
-                        <button type="button" pButton pRipple [pRowToggler]="product"
-                            class="p-button-text p-button-rounded p-button-plain"
-                            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
-                            (click)="!expanded ? getProductsByModelId(product) : null"></button>
-                    </td>
-                    <td style="min-width: 12rem;">{{product.brandName | titlecase }}</td>
-                    <td style="min-width: 16rem;">
-                        <div class="flex align-items-center">
-                            <span class="flex-1">{{product.name | titlecase }}</span>
-                            <img class="shadow-4 flex-2" [src]="product.img" [alt]="product.name" width="100" />
-                        </div>
-                    </td>
-                    <td style="min-width: 8rem;">{{product.minPrice | currency:'USD'}} - {{product.maxPrice |
-                        currency:'USD'}}</td>
-                    <td style="min-width: 10rem;">{{product.type | titlecase}}</td>
-                    <td>
-                        <span
-                            [class]="'product-badge status-' + ((product.totalCount > 0) ? 'INSTOCK' : 'OUTOFSTOCK').toLowerCase()">
-                            {{
-                            ((product.totalCount > 0) ? 'INSTOCK' : 'OUTOFSTOCK').toLowerCase()
-                            }}
-                        </span>
-                    </td>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="rowexpansion" let-product>
-                <tr>
-                    <td colspan="12">
-                        <div class="p-3">
-                            <p-table [value]="product.products" dataKey="reference" responsiveLayout="scroll">
-                                <ng-template pTemplate="header">
-                <tr>
-                    <th pSortableColumn="reference">Reference<p-sortIcon field="reference"></p-sortIcon></th>
-                    <th pSortableColumn="price.amount">Price<p-sortIcon field="price.amount"></p-sortIcon></th>
-                    <th>Closest Reservation</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-p>
-                <tr>
-                    <td>{{p.reference}}</td>
-                    <td>{{p.currentPrice?.amount | currency:'USD'}}</td>
-                    <td>{{ (p.reservations[0]?.loanedFrom && p.reservations[0]?.loanedUntil) ?
-                        p.reservations[0]?.loanedFrom + " to " + p.reservations[0]?.loanedUntil : '' }}</td>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="emptymessage">
-                <tr>
-                    <td colspan="6">There are no products for this model yet.</td>
-                </tr>
-            </ng-template>
-        </p-table>
-    </div>
-    </td>
-    </tr>
-    </ng-template>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-product>
+            <tr>
+                <td colspan="12">
+                    <div class="p-3">
+                        <p-table
+                            [value]="product.products"
+                            dataKey="reference"
+                            responsiveLayout="scroll"
+                        >
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th pSortableColumn="reference">
+                                        Reference<p-sortIcon
+                                            field="reference"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="price.amount">
+                                        Price<p-sortIcon
+                                            field="price.amount"
+                                        ></p-sortIcon>
+                                    </th>
+                                    <th>Closest Reservation</th>
+                                    <th style="min-width: 8rem"></th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-p>
+                                <tr>
+                                    <td>{{ p.reference }}</td>
+                                    <td>
+                                        {{
+                                            p.currentPrice?.amount
+                                                | currency : "USD"
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            p.reservations[0]?.loanedFrom &&
+                                            p.reservations[0]?.loanedUntil
+                                                ? p.reservations[0]
+                                                      ?.loanedFrom +
+                                                  " to " +
+                                                  p.reservations[0]?.loanedUntil
+                                                : ""
+                                        }}
+                                    </td>
+                                    <td
+                                        class="flex justify-content-end align-items-center"
+                                        style="min-width: 8rem"
+                                    >
+                                        <p-button
+                                            label="Loan"
+                                            severity="info"
+                                            [rounded]="true"
+                                        />
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td colspan="6">
+                                        There are no products for this model
+                                        yet.
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
     </p-table>
-</div>
 </div>

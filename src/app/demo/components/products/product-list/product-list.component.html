@@ -18,13 +18,11 @@
             <ng-template pTemplate="header">
                 <tr>
                     <th style="width: 3rem"></th>
-                    <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-                    <th>Image</th>
-                    <th pSortableColumn="name">Brand <p-sortIcon field="brand"></p-sortIcon></th>
-                    <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
-                    <th pSortableColumn="category">Category <p-sortIcon field="category"></p-sortIcon></th>
-                    <th pSortableColumn="rating">Reviews <p-sortIcon field="rating"></p-sortIcon></th>
-                    <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
+                    <th pSortableColumn="brandName">Brand <p-sortIcon field="brandName"></p-sortIcon></th>
+                    <th pSortableColumn="name">Model <p-sortIcon field="name"></p-sortIcon></th>
+                    <th pSortableColumn="minPrice">Price <p-sortIcon field="minPrice"></p-sortIcon></th>
+                    <th pSortableColumn="type">Category <p-sortIcon field="type"></p-sortIcon></th>
+                    <th pSortableColumn="totalCount">Status <p-sortIcon field="totalCount"></p-sortIcon></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-product let-expanded="expanded">
@@ -35,17 +33,16 @@
                             [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
                             (click)="!expanded ? getProductsByModelId(product) : null"></button>
                     </td>
-                    <td style="min-width: 12rem;">{{product.name}}</td>
-                    <td>
-                        <img class="shadow-4" [src]="product.img" [alt]="product.name" width="100" />
+                    <td style="min-width: 12rem;">{{product.brandName | titlecase }}</td>
+                    <td style="min-width: 16rem;">
+                        <div class="flex align-items-center">
+                            <span class="flex-1">{{product.name | titlecase }}</span>
+                            <img class="shadow-4 flex-2" [src]="product.img" [alt]="product.name" width="100" />
+                        </div>
                     </td>
-                    <td style="min-width: 12rem;">{{product.brandName?.toLowerCase()}}</td>
                     <td style="min-width: 8rem;">{{product.minPrice | currency:'USD'}} - {{product.maxPrice |
                         currency:'USD'}}</td>
-                    <td style="min-width: 10rem;">{{product.type?.toLowerCase()}}</td>
-                    <td style="min-width: 10rem;">
-                        <!-- <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating> -->
-                    </td>
+                    <td style="min-width: 10rem;">{{product.type | titlecase}}</td>
                     <td>
                         <span
                             [class]="'product-badge status-' + ((product.totalCount > 0) ? 'INSTOCK' : 'OUTOFSTOCK').toLowerCase()">
@@ -65,10 +62,7 @@
                 <tr>
                     <th pSortableColumn="reference">Reference<p-sortIcon field="reference"></p-sortIcon></th>
                     <th pSortableColumn="price.amount">Price<p-sortIcon field="price.amount"></p-sortIcon></th>
-                    <th>Reservation</th>
-                    <!-- <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon></th>
-                    <th pSortableColumn="stats">Status <p-sortIcon field="status"></p-sortIcon></th> -->
-                    <!-- <th style="width: 4rem"></th> -->
+                    <th>Closest Reservation</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-p>

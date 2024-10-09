@@ -3,7 +3,9 @@
     flex-direction: column;
     min-height: 100vh;
     justify-content: space-between;
-    padding: 7rem 2rem 2rem 4rem;
+    padding-block-start: 6rem;
+    padding-block-end: 4rem;
+    padding-inline: 2rem;
     transition: margin-left $transitionDuration;
 }
 

@@ -23,6 +23,10 @@ export class ProductListComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.getAll();
+    }
+
+    getAll() {
         this.productService.getAllProductModels().subscribe({
             next: (data: ProductModelItem[]) => {
                 this.products = [...data];
@@ -50,10 +54,16 @@ export class ProductListComponent implements OnInit {
 
     openProductModelEdit(product?: ProductModelItem) {
         this.ref = this.dialogService.open(ProductModelDialogComponent, {
-            header: product ? `Edit ${product.name}` : 'Create a new Product',
+            header: product
+                ? `Edit ${product.name}`
+                : 'Create a new Product Model',
+            modal: true,
             data: {
                 id: product?.id,
+                img: product?.img,
             },
         });
+
+        this.ref.onClose.subscribe(() => this.getAll());
     }
 }

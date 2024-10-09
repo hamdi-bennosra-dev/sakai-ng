@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 
 import { ProductsRoutingModule } from './products-routing.module';
 import { TableDemoRoutingModule } from '../uikit/table/tabledemo-routing.module';
@@ -20,6 +20,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ProductModelDialogComponent } from './product-model-dialog/product-model-dialog.component';
 import { TooltipModule } from 'primeng/tooltip';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
 	imports: [
@@ -39,9 +40,10 @@ import { TooltipModule } from 'primeng/tooltip';
 		ToastModule,
 		ProductsRoutingModule,
 		DynamicDialogModule,
-		TooltipModule
+		TooltipModule,
+		InputTextareaModule
 	],
-	providers: [MessageService, ConfirmationService, DialogService],
+	providers: [MessageService, ConfirmationService, DialogService, TitleCasePipe],
 	declarations: [TableDemoComponent, ProductModelDialogComponent]
 })
 export class ProductsModule { }

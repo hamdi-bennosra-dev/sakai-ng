@@ -1,12 +1,11 @@
-import {
-    Component,
-    OnInit,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Product } from 'src/app/demo/api/product';
 import { ProductService } from 'src/app/demo/service/product.service';
 import { StorageService } from 'src/app/demo/service/storage.service';
 import { ProductItemDTO } from 'src/app/layout/models/product';
 import { ProductModelItem } from 'src/app/layout/models/productModelItem';
+import { ProductModelDialogComponent } from '../product-model-dialog/product-model-dialog.component';
 
 @Component({
     selector: 'app-product-list',
@@ -14,22 +13,13 @@ import { ProductModelItem } from 'src/app/layout/models/productModelItem';
     styleUrl: './product-list.component.scss',
 })
 export class ProductListComponent implements OnInit {
-
     products: Product[] = [];
-
-
-
-    activityValues: number[] = [0, 100];
-
-    isExpanded: boolean = false;
-
-    idFrozen: boolean = false;
-
-    loading: boolean = true;
+    ref: DynamicDialogRef | undefined;
 
     constructor(
         private productService: ProductService,
-        private storageService: StorageService
+        private storageService: StorageService,
+        private dialogService: DialogService
     ) {}
 
     ngOnInit() {
@@ -56,5 +46,14 @@ export class ProductListComponent implements OnInit {
             .subscribe((products: ProductItemDTO[]) => {
                 model.products = [...products];
             });
+    }
+
+    openProductModelEdit(product?: ProductModelItem) {
+        this.ref = this.dialogService.open(ProductModelDialogComponent, {
+            header: product ? `Edit ${product.name}` : 'Create a new Product',
+            data: {
+                id: product?.id,
+            },
+        });
     }
 }

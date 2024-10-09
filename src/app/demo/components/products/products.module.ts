@@ -17,7 +17,9 @@ import { ToastModule } from 'primeng/toast';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { TableDemoComponent } from '../uikit/table/tabledemo.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
-
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { ProductModelDialogComponent } from './product-model-dialog/product-model-dialog.component';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
 	imports: [
@@ -35,9 +37,11 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 		DropdownModule,
 		ProgressBarModule,
 		ToastModule,
-		ProductsRoutingModule
+		ProductsRoutingModule,
+		DynamicDialogModule,
+		TooltipModule
 	],
-	providers: [MessageService, ConfirmationService],
-	declarations: [TableDemoComponent]
+	providers: [MessageService, ConfirmationService, DialogService],
+	declarations: [TableDemoComponent, ProductModelDialogComponent]
 })
 export class ProductsModule { }

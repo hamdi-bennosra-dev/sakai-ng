@@ -1,11 +1,23 @@
+<p-toast></p-toast>
+
 <div class="card">
-    <h5>Product Models</h5>
-    <p-toast></p-toast>
+    <div class="flex align-items-center justify-content-between">
+        <h5>Product Models</h5>
+        <p-button
+            class="mb-4"
+            severity="success"
+            label="New"
+            icon="pi pi-plus"
+            tooltipPosition="bottom"
+            pTooltip="Create new product"
+            (click)="openProductModelEdit()"
+        />
+    </div>
     <p-table
         #dt1
         [value]="products"
         dataKey="name"
-        [globalFilterFields]="['name']"
+        [globalFilterFields]="['name', 'brandName']"
         responsiveLayout="scroll"
     >
         <ng-template pTemplate="caption">
@@ -48,6 +60,7 @@
                 <th pSortableColumn="totalCount">
                     Status <p-sortIcon field="totalCount"></p-sortIcon>
                 </th>
+                <th></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-product let-expanded="expanded">
@@ -108,6 +121,23 @@
                             ).toLowerCase()
                         }}
                     </span>
+                </td>
+                <td>
+                    <p-button
+                        severity="info"
+                        icon="pi pi-pencil"
+                        [rounded]="true"
+                        tooltipPosition="right"
+                        [pTooltip]="tooltipContent"
+                        (click)="openProductModelEdit(product)"
+                    />
+                    <ng-template #tooltipContent>
+                        <div class="flex align-items-center">
+                            <span>
+                                Edit <b>{{ product.name }}</b>
+                            </span>
+                        </div>
+                    </ng-template>
                 </td>
             </tr>
         </ng-template>

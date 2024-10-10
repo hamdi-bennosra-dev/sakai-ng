@@ -1,0 +1,188 @@
+<div class="card">
+    <div class="card-header flex justify-content-between">
+        <strong>{{ model?.name + " Products" }}</strong>
+        <p-button
+            icon="pi pi-arrow-left"
+            label="Back"
+            styleClass="mb-2 p-button-sm"
+            [routerLink]="'/products/list'"
+        ></p-button>
+    </div>
+    <div class="card-content">
+        <p-dataView
+            #dv
+            [value]="products"
+            [paginator]="true"
+            [rows]="5"
+            filterBy="name"
+            [sortField]="sortField"
+            [sortOrder]="sortOrder"
+            layout="grid"
+        >
+            <ng-template pTemplate="header">
+                <div
+                    class="flex flex-column md:flex-row md:justify-content-between gap-2"
+                >
+                    <p-dropdown
+                        [options]="sortOptions"
+                        placeholder="Sort By Price"
+                        (onChange)="onSortChange($event)"
+                    ></p-dropdown>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input
+                            type="search"
+                            pInputText
+                            placeholder="Search by Name"
+                            (input)="onFilter(dv, $event)"
+                        />
+                    </span>
+                    <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                </div>
+            </ng-template>
+
+            <ng-template let-products pTemplate="listItem">
+                <div class="col-12" *ngFor="let product of products">
+                    <div
+                        class="flex flex-column md:flex-row align-items-center p-3 w-full"
+                    >
+                        <ng-container *ngIf="product.img; else placeholder">
+                            <img
+                                [src]="product.img"
+                                [alt]="product.reference"
+                                class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5"
+                            />
+                        </ng-container>
+                        <ng-template #placeholder>
+                            <div class="placeholder">
+                                <i class="pi pi-image"></i>
+                            </div>
+                        </ng-template>
+                        <div
+                            class="flex-1 flex flex-column align-items-center text-center md:text-left"
+                        >
+                            <div class="font-bold text-2xl">
+                                {{ product.reference }}
+                            </div>
+                            <p-rating
+                                [ngModel]="product.rating"
+                                [readonly]="true"
+                                [cancel]="false"
+                                styleClass="mb-2"
+                            ></p-rating>
+                        </div>
+                        <div
+                            class="flex flex-row md:flex-column justify-content-between w-full md:w-auto align-items-center md:align-items-end mt-5 md:mt-0"
+                        >
+                            <span
+                                class="text-2xl font-semibold mb-2 align-self-center md:align-self-end"
+                                >${{ product.currentPrice?.amount }}</span
+                            >
+                            <p-button
+                                icon="pi pi-shopping-cart"
+                                label="Add to Cart"
+                                severity="success"
+                                [disabled]="
+                                    product.inventoryStatus === 'OUTOFSTOCK'
+                                "
+                                styleClass="mb-2 p-button-sm"
+                            ></p-button>
+                            <p-button
+                                icon="pi pi-pencil"
+                                label="Edit"
+                                severity="info"
+                                styleClass="mb-2 p-button-sm"
+                            ></p-button>
+                            <span
+                                [class]="
+                                    'product-badge status-' +
+                                    product.inventoryStatus.toLowerCase()
+                                "
+                                >{{
+                                    product.inventoryStatus === "OUTOFSTOCK"
+                                        ? "Loaned"
+                                        : "Available"
+                                }}</span
+                            >
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template let-products pTemplate="gridItem">
+                <div class="grid grid-nogutter">
+                    <div
+                        class="col-12 md:col-4"
+                        *ngFor="let product of products"
+                    >
+                        <div class="card m-3 border-1 surface-border">
+                            <div
+                                class="flex flex-wrap gap-2 justify-content-center align-items-center mb-2"
+                            >
+                                <span
+                                    [class]="
+                                        'product-badge status-' +
+                                        product.inventoryStatus.toLowerCase()
+                                    "
+                                    >{{
+                                        product.inventoryStatus === "OUTOFSTOCK"
+                                            ? "Loaned"
+                                            : "Available"
+                                    }}</span
+                                >
+                            </div>
+                            <div
+                                class="flex flex-column align-items-center text-center mb-4"
+                            >
+                                <ng-container
+                                    *ngIf="product.img; else placeholder"
+                                >
+                                    <img
+                                        [src]="product.img"
+                                        [alt]="product.reference"
+                                        class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5"
+                                    />
+                                </ng-container>
+                                <ng-template #placeholder>
+                                    <div class="placeholder">
+                                        <i class="pi pi-image"></i>
+                                    </div>
+                                </ng-template>
+                                <div class="text-2xl font-bold">
+                                    {{ product.reference }}
+                                </div>
+                                <p-rating
+                                    [ngModel]="product.rating"
+                                    [readonly]="true"
+                                    [cancel]="false"
+                                ></p-rating>
+                            </div>
+                            <div
+                                class="flex align-items-center justify-content-between"
+                            >
+                                <span class="text-2xl font-semibold"
+                                    >${{ product.currentPrice?.amount }}</span
+                                >
+                                <div>
+                                    <p-button
+                                        icon="pi pi-shopping-cart"
+                                        severity="success"
+                                        [disabled]="
+                                            product.inventoryStatus ===
+                                            'OUTOFSTOCK'
+                                        "
+                                    ></p-button>
+                                    <p-button
+                                        class="ml-2"
+                                        icon="pi pi-pencil"
+                                        severity="info"
+                                    ></p-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </p-dataView>
+    </div>
+</div>

@@ -21,29 +21,46 @@ import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ProductModelDialogComponent } from './product-model-dialog/product-model-dialog.component';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ProductsViewComponent } from './products-view/products-view.component';
+import { DataViewModule } from 'primeng/dataview';
+import { PickListModule } from 'primeng/picklist';
+import { OrderListModule } from 'primeng/orderlist';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		TableDemoRoutingModule,
-		FormsModule,
-		TableModule,
-		RatingModule,
-		ButtonModule,
-		SliderModule,
-		InputTextModule,
-		ToggleButtonModule,
-		RippleModule,
-		MultiSelectModule,
-		DropdownModule,
-		ProgressBarModule,
-		ToastModule,
-		ProductsRoutingModule,
-		DynamicDialogModule,
-		TooltipModule,
-		InputTextareaModule
-	],
-	providers: [MessageService, ConfirmationService, DialogService, TitleCasePipe],
-	declarations: [TableDemoComponent, ProductModelDialogComponent]
+    imports: [
+        CommonModule,
+        TableDemoRoutingModule,
+        FormsModule,
+        TableModule,
+        RatingModule,
+        ButtonModule,
+        SliderModule,
+        InputTextModule,
+        ToggleButtonModule,
+        RippleModule,
+        MultiSelectModule,
+        DropdownModule,
+        ProgressBarModule,
+        ToastModule,
+        ProductsRoutingModule,
+        DynamicDialogModule,
+        TooltipModule,
+        InputTextareaModule,
+        DataViewModule,
+        DataViewModule,
+		PickListModule,
+		OrderListModule,
+    ],
+    providers: [
+        MessageService,
+        ConfirmationService,
+        DialogService,
+        TitleCasePipe,
+    ],
+    declarations: [
+        TableDemoComponent,
+        ProductModelDialogComponent,
+        ProductsViewComponent
+    ],
 })
-export class ProductsModule { }
+export class ProductsModule {}

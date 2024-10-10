@@ -10,6 +10,7 @@ import { ProductModel } from 'src/app/layout/models/productModel';
 
 @Injectable()
 export class ProductService {
+    private product: ProductModelItem | null = null; // Shared product variable
     private apiUrl = environment.apiUrl + 'product'; // Your backend API endpoint
 
     constructor(private http: HttpClient) {}
@@ -48,6 +49,18 @@ export class ProductService {
             this.apiUrl + '/models/' + productModel.id,
             productModel
         );
+    }
+
+    setProduct(product: ProductModelItem): void {
+        this.product = product;
+    }
+
+    getProduct(): ProductModelItem | null {
+        return this.product;
+    }
+
+    clearProduct(): void {
+        this.product = null;
     }
 
     getProductsSmall() {

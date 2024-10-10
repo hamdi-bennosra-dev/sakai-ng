@@ -5,22 +5,25 @@ import { ProductService } from 'src/app/demo/service/product.service';
 import { StorageService } from 'src/app/demo/service/storage.service';
 import { MyDropdownItem } from 'src/app/layout/models/dropdown-item';
 import { ProductModel } from 'src/app/layout/models/productModel';
+import { FileUpload } from '../utils/file-upload';
+import { ProductEditDialog } from '../utils/product-edit-dialog';
 
 @Component({
     selector: 'app-product-model-dialog',
     templateUrl: './product-model-dialog.component.html',
     styleUrl: './product-model-dialog.component.scss',
 })
-export class ProductModelDialogComponent {
+export class ProductModelDialogComponent
+    extends FileUpload
+    implements ProductEditDialog
+{
     brandItems: MyDropdownItem[] = [];
     categoryItems: MyDropdownItem[] = [];
     selectedBrand: string = '';
     selectedCategory: string = '';
     description: string = '';
     name: string = '';
-    imageSrc: string | ArrayBuffer | null = null;
     uuid: string | null;
-    file: File;
 
     constructor(
         private productService: ProductService,
@@ -29,6 +32,7 @@ export class ProductModelDialogComponent {
         private dialogRef: DynamicDialogRef,
         private dialogConfig: DynamicDialogConfig
     ) {
+        super();
         productService
             .getBrandsDropdown()
             .subscribe((brands: MyDropdownItem[]) => {
@@ -57,22 +61,7 @@ export class ProductModelDialogComponent {
                 });
     }
 
-    onFileSelected(event: Event): void {
-        const input = event.target as HTMLInputElement;
-
-        if (input.files && input.files.length) {
-            this.file = input.files[0];
-            const reader = new FileReader();
-
-            reader.onload = (e) => {
-                this.imageSrc = reader.result;
-            };
-
-            reader.readAsDataURL(this.file); // Read the file and set it as imageSrc
-        }
-    }
-
-    save() {
+    save(): void {
         if (this.isSaveValid()) {
             const product = new ProductModel();
             product.id = this.uuid;
@@ -101,7 +90,11 @@ export class ProductModelDialogComponent {
         }
     }
 
-    isSaveValid() {
-        return this.name && this.selectedBrand && this.selectedCategory;
+    isSaveValid(): boolean {
+        return (
+            this.name != null &&
+            this.selectedBrand != null &&
+            this.selectedCategory != null
+        );
     }
 }

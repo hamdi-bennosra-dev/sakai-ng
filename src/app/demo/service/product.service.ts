@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Product } from '../api/product';
 import { ProductModelItem } from 'src/app/layout/models/productModelItem';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ProductItemDTO } from 'src/app/layout/models/product';
+import { BesyessaProduct, PriceDTO, ProductItemDTO } from 'src/app/layout/models/product';
 import { MyDropdownItem } from 'src/app/layout/models/dropdown-item';
 import { ProductModel } from 'src/app/layout/models/productModel';
+import { Product } from '../api/product';
 
 @Injectable()
 export class ProductService {
@@ -51,6 +51,28 @@ export class ProductService {
         );
     }
 
+    updateProduct(product: ProductModel): Observable<BesyessaProduct> {
+        return this.http.put<BesyessaProduct>(
+            this.apiUrl + '/' + product.id,
+            product
+        );
+    }
+
+    saveProduct(product: ProductModel): Observable<BesyessaProduct> {
+        return this.http.post<BesyessaProduct>(
+            this.apiUrl,
+            product
+        );
+    }
+
+    changeProductPrice(price: PriceDTO): Observable<void> {
+        return this.http.post<void>(
+            this.apiUrl + '/prices',
+            price
+        );
+    }
+
+    // SET VARIABLE for state: 
     setProduct(product: ProductModelItem): void {
         this.product = product;
     }
@@ -62,6 +84,7 @@ export class ProductService {
     clearProduct(): void {
         this.product = null;
     }
+    // END OF setting variable for state.
 
     getProductsSmall() {
         return this.http

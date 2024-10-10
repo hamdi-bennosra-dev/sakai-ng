@@ -3,10 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { SelectItem } from 'primeng/api';
 import { DataView } from 'primeng/dataview';
+import { DialogService } from 'primeng/dynamicdialog';
 import { ProductService } from 'src/app/demo/service/product.service';
 import { ProductItemDTO } from 'src/app/layout/models/product';
 import { ProductModel } from 'src/app/layout/models/productModel';
 import { ProductModelItem } from 'src/app/layout/models/productModelItem';
+import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
+import { StorageService } from 'src/app/demo/service/storage.service';
 
 @Component({
     selector: 'app-products-view',
@@ -24,7 +27,8 @@ export class ProductsViewComponent implements OnInit {
     constructor(
         private productService: ProductService,
         private route: ActivatedRoute,
-        private router: Router
+        private dialogService: DialogService,
+        private storageService: StorageService
     ) {
         this.sortOptions = [
             { label: 'Price High to Low', value: '!price' },
@@ -64,6 +68,15 @@ export class ProductsViewComponent implements OnInit {
                         ? 'OUTOFSTOCK'
                         : 'INSTOCK';
                     p.rating = this.getRandomInt();
+                    this.storageService
+                        .downloadFile('products', p.id)
+                        .subscribe({
+                            next: (blob: Blob) => {
+                                const url = window.URL.createObjectURL(blob);
+                                p.img = url; // Set the image URL to display
+                            },
+                            error: () => (p.img = null),
+                        });
                 });
             });
     }
@@ -86,5 +99,25 @@ export class ProductsViewComponent implements OnInit {
 
     onFilter(dv: DataView, event: Event) {
         dv.filter((event.target as HTMLInputElement).value);
+    }
+
+    openProductModelEdit(product?: ProductItemDTO) {
+        const ref = this.dialogService.open(ProductDialogComponent, {
+            header: product
+                ? `Edit Product - ${product.reference}`
+                : 'Create a new Product Model',
+            modal: true,
+            data: {
+                id: product?.id,
+                img: product?.img,
+                price: product?.currentPrice?.amount ?? 0,
+                productModelId: this.modelId,
+                reference: product?.reference,
+            },
+        });
+
+        ref.onClose.subscribe((success: boolean) => {
+            if (success) this.fetchProducts(this.modelId);
+        });
     }
 }

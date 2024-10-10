@@ -1,6 +1,8 @@
 <div class="card">
     <div class="card-header flex justify-content-between">
-        <strong>{{ model?.name + " Products" }}</strong>
+        <strong [style.fontSize.rem]="1.25">{{
+            model?.name + " Products"
+        }}</strong>
         <p-button
             icon="pi pi-arrow-left"
             label="Back"
@@ -13,7 +15,7 @@
             #dv
             [value]="products"
             [paginator]="true"
-            [rows]="5"
+            [rows]="6"
             filterBy="name"
             [sortField]="sortField"
             [sortOrder]="sortOrder"
@@ -28,16 +30,28 @@
                         placeholder="Sort By Price"
                         (onChange)="onSortChange($event)"
                     ></p-dropdown>
-                    <span class="p-input-icon-left">
-                        <i class="pi pi-search"></i>
-                        <input
-                            type="search"
-                            pInputText
-                            placeholder="Search by Name"
-                            (input)="onFilter(dv, $event)"
-                        />
-                    </span>
-                    <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                    <div
+                        class="flex justify-content-center align-items-center gap-2"
+                    >
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input
+                                type="search"
+                                pInputText
+                                placeholder="Search by Name"
+                                (input)="onFilter(dv, $event)"
+                            />
+                        </span>
+                        <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                    </div>
+                    <p-button
+                        id="product-view-list-edit"
+                        icon="pi pi-plus"
+                        label="Add"
+                        severity="success"
+                        styleClass="mb-2 p-button-sm"
+                        (click)="openProductModelEdit()"
+                    ></p-button>
                 </div>
             </ng-template>
 
@@ -46,53 +60,23 @@
                     <div
                         class="flex flex-column md:flex-row align-items-center p-3 w-full"
                     >
-                        <ng-container *ngIf="product.img; else placeholder">
-                            <img
-                                [src]="product.img"
-                                [alt]="product.reference"
-                                class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5"
-                            />
-                        </ng-container>
-                        <ng-template #placeholder>
-                            <div class="placeholder">
-                                <i class="pi pi-image"></i>
-                            </div>
-                        </ng-template>
+                        <div class="image-holder">
+                            <ng-container *ngIf="product.img; else placeholder">
+                                <img
+                                    [src]="product.img"
+                                    [alt]="product.reference"
+                                    class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5"
+                                />
+                            </ng-container>
+                            <ng-template #placeholder>
+                                <div class="placeholder">
+                                    <i class="pi pi-image"></i>
+                                </div>
+                            </ng-template>
+                        </div>
                         <div
                             class="flex-1 flex flex-column align-items-center text-center md:text-left"
                         >
-                            <div class="font-bold text-2xl">
-                                {{ product.reference }}
-                            </div>
-                            <p-rating
-                                [ngModel]="product.rating"
-                                [readonly]="true"
-                                [cancel]="false"
-                                styleClass="mb-2"
-                            ></p-rating>
-                        </div>
-                        <div
-                            class="flex flex-row md:flex-column justify-content-between w-full md:w-auto align-items-center md:align-items-end mt-5 md:mt-0"
-                        >
-                            <span
-                                class="text-2xl font-semibold mb-2 align-self-center md:align-self-end"
-                                >${{ product.currentPrice?.amount }}</span
-                            >
-                            <p-button
-                                icon="pi pi-shopping-cart"
-                                label="Add to Cart"
-                                severity="success"
-                                [disabled]="
-                                    product.inventoryStatus === 'OUTOFSTOCK'
-                                "
-                                styleClass="mb-2 p-button-sm"
-                            ></p-button>
-                            <p-button
-                                icon="pi pi-pencil"
-                                label="Edit"
-                                severity="info"
-                                styleClass="mb-2 p-button-sm"
-                            ></p-button>
                             <span
                                 [class]="
                                     'product-badge status-' +
@@ -104,6 +88,41 @@
                                         : "Available"
                                 }}</span
                             >
+                            <div class="font-bold text-2xl mt-2">
+                                {{ product.reference }}
+                            </div>
+                            <p-rating
+                                [ngModel]="product.rating"
+                                [readonly]="true"
+                                [cancel]="false"
+                                styleClass="mb-2"
+                            ></p-rating>
+                            <span class="text-2xl font-semibold">{{
+                                product.currentPrice?.amount
+                                    ? product.currentPrice?.amount + " TND"
+                                    : ""
+                            }}</span>
+                        </div>
+                        <div
+                            class="flex flex-row md:flex-column justify-content-between w-full md:w-auto align-items-center md:align-items-end mt-5 md:mt-0"
+                        >
+                            <p-button
+                                icon="pi pi-shopping-cart"
+                                label="Add to Cart"
+                                severity="success"
+                                [disabled]="
+                                    product.inventoryStatus === 'OUTOFSTOCK'
+                                "
+                                styleClass="mb-2 p-button-sm"
+                            ></p-button>
+                            <p-button
+                                id="product-view-list-edit"
+                                icon="pi pi-pencil"
+                                label="Edit"
+                                severity="info"
+                                styleClass="mb-2 p-button-sm"
+                                (click)="openProductModelEdit(product)"
+                            ></p-button>
                         </div>
                     </div>
                 </div>
@@ -132,22 +151,24 @@
                                 >
                             </div>
                             <div
-                                class="flex flex-column align-items-center text-center mb-4"
+                                class="flex flex-column align-items-center justify-content-center text-center mb-4"
                             >
-                                <ng-container
-                                    *ngIf="product.img; else placeholder"
-                                >
-                                    <img
-                                        [src]="product.img"
-                                        [alt]="product.reference"
-                                        class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5"
-                                    />
-                                </ng-container>
-                                <ng-template #placeholder>
-                                    <div class="placeholder">
-                                        <i class="pi pi-image"></i>
-                                    </div>
-                                </ng-template>
+                                <div class="image-holder">
+                                    <ng-container
+                                        *ngIf="product.img; else placeholder"
+                                    >
+                                        <img
+                                            [src]="product.img"
+                                            [alt]="product.reference"
+                                            class="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5"
+                                        />
+                                    </ng-container>
+                                    <ng-template #placeholder>
+                                        <div class="placeholder">
+                                            <i class="pi pi-image"></i>
+                                        </div>
+                                    </ng-template>
+                                </div>
                                 <div class="text-2xl font-bold">
                                     {{ product.reference }}
                                 </div>
@@ -160,8 +181,13 @@
                             <div
                                 class="flex align-items-center justify-content-between"
                             >
-                                <span class="text-2xl font-semibold"
-                                    >${{ product.currentPrice?.amount }}</span
+                                <span class="text-2xl font-semibold">
+                                    {{
+                                        product.currentPrice?.amount
+                                            ? product.currentPrice?.amount +
+                                              " TND"
+                                            : ""
+                                    }}</span
                                 >
                                 <div>
                                     <p-button
@@ -176,6 +202,7 @@
                                         class="ml-2"
                                         icon="pi pi-pencil"
                                         severity="info"
+                                        (click)="openProductModelEdit(product)"
                                     ></p-button>
                                 </div>
                             </div>

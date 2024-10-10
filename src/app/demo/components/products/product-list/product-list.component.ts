@@ -39,12 +39,6 @@ export class ProductListComponent implements OnInit {
                         },
                         error: () => (p.img = null),
                     });
-
-                    // this.productService
-                    //     .getAllProducts(p.id)
-                    //     .subscribe((products: ProductItemDTO[]) => {
-                    //         p.products = [...products];
-                    //     });
                 });
             },
         });

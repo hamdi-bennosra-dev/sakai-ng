@@ -25,6 +25,7 @@ import { ProductsViewComponent } from './products-view/products-view.component';
 import { DataViewModule } from 'primeng/dataview';
 import { PickListModule } from 'primeng/picklist';
 import { OrderListModule } from 'primeng/orderlist';
+import { ProductDialogComponent } from './product-dialog/product-dialog.component';
 
 @NgModule({
     imports: [
@@ -60,7 +61,8 @@ import { OrderListModule } from 'primeng/orderlist';
     declarations: [
         TableDemoComponent,
         ProductModelDialogComponent,
-        ProductsViewComponent
+        ProductsViewComponent,
+        ProductDialogComponent
     ],
 })
 export class ProductsModule {}

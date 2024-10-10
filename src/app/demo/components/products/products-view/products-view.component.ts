@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { SelectItem } from 'primeng/api';
 import { DataView } from 'primeng/dataview';
@@ -10,6 +10,7 @@ import { ProductModel } from 'src/app/layout/models/productModel';
 import { ProductModelItem } from 'src/app/layout/models/productModelItem';
 import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
 import { StorageService } from 'src/app/demo/service/storage.service';
+import { isAfter, isBefore, parse } from 'date-fns';
 
 @Component({
     selector: 'app-products-view',
@@ -64,9 +65,7 @@ export class ProductsViewComponent implements OnInit {
             .subscribe((data: ProductItemDTO[]) => {
                 this.products = [...data];
                 this.products.forEach((p: ProductItemDTO) => {
-                    p.inventoryStatus = p.reservations[0]
-                        ? 'OUTOFSTOCK'
-                        : 'INSTOCK';
+                    this.checkInventoryStatus(p)
                     p.rating = this.getRandomInt();
                     this.storageService
                         .downloadFile('products', p.id)
@@ -82,8 +81,29 @@ export class ProductsViewComponent implements OnInit {
     }
 
     getRandomInt() {
-        return Math.floor(Math.random() * (5 - 1 + 1)) + 1;
+        return Math.floor(Math.random() * (5 - 2 + 1)) + 1;
     }
+
+    checkInventoryStatus(p: ProductItemDTO): void {
+        const now = new Date(); // Current date
+      
+        const formatString = 'dd/MM/yyyy HH:mm:ss'; // Format of loanedFrom and loanedUntil
+      
+        // Loop through reservations
+        for (const reservation of p.reservations) {
+          const loanedFromDate = parse(reservation.loanedFrom, formatString, new Date());
+          const loanedUntilDate = parse(reservation.loanedUntil, formatString, new Date());
+      
+          // Check if current date is between loanedFrom and loanedUntil
+          if (isAfter(now, loanedFromDate) && isBefore(now, loanedUntilDate)) {
+            p.inventoryStatus = 'OUTOFSTOCK';
+            return; // Exit early if found
+          }
+        }
+      
+        // If no reservation found, set inventoryStatus to INSTOCK
+        p.inventoryStatus = 'INSTOCK';
+      }
 
     onSortChange(event: any) {
         const value = event.value;

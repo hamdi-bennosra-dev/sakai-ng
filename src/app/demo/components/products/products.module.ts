@@ -26,6 +26,8 @@ import { DataViewModule } from 'primeng/dataview';
 import { PickListModule } from 'primeng/picklist';
 import { OrderListModule } from 'primeng/orderlist';
 import { ProductDialogComponent } from './product-dialog/product-dialog.component';
+import { LoanDialogComponent } from './loan-dialog/loan-dialog.component';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
     imports: [
@@ -51,6 +53,7 @@ import { ProductDialogComponent } from './product-dialog/product-dialog.componen
         DataViewModule,
 		PickListModule,
 		OrderListModule,
+        CalendarModule
     ],
     providers: [
         MessageService,
@@ -62,7 +65,8 @@ import { ProductDialogComponent } from './product-dialog/product-dialog.componen
         TableDemoComponent,
         ProductModelDialogComponent,
         ProductsViewComponent,
-        ProductDialogComponent
+        ProductDialogComponent,
+        LoanDialogComponent
     ],
 })
 export class ProductsModule {}

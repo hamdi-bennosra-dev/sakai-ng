@@ -20,9 +20,15 @@
     <div class="p-fluid p-formgrid grid p-2">
         <div class="field sm:col-12 md:col-6">
             <label [style.fontWeight]="'bold'" htmlFor="name">Reference</label>
-            <input pInputText [(ngModel)]="reference" id="name" type="text" />
+            <input
+                [disabled]="uuid"
+                pInputText
+                [(ngModel)]="reference"
+                id="name"
+                type="text"
+            />
         </div>
-       
+
         <div class="field sm:col-12 md:col-6">
             <label [style.fontWeight]="'bold'" htmlFor="price">Price</label>
             <input pInputText [(ngModel)]="price" id="price" type="number" />

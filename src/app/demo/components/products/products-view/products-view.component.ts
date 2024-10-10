@@ -11,6 +11,7 @@ import { ProductModelItem } from 'src/app/layout/models/productModelItem';
 import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
 import { StorageService } from 'src/app/demo/service/storage.service';
 import { isAfter, isBefore, parse } from 'date-fns';
+import { LoanDialogComponent } from '../loan-dialog/loan-dialog.component';
 
 @Component({
     selector: 'app-products-view',
@@ -133,6 +134,22 @@ export class ProductsViewComponent implements OnInit {
                 price: product?.currentPrice?.amount ?? 0,
                 productModelId: this.modelId,
                 reference: product?.reference,
+            },
+        });
+
+        ref.onClose.subscribe((success: boolean) => {
+            if (success) this.fetchProducts(this.modelId);
+        });
+    }
+
+    openReservationDialog(product: ProductItemDTO) {
+        const ref = this.dialogService.open(LoanDialogComponent, {
+            header: `Loan - ${product.reference}`,
+            modal: true,
+            data: {
+                id: product.id,
+                reservations: product.reservations,
+                priceId: product.currentPrice.id
             },
         });
 

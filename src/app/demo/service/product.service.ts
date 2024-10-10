@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ProductModelItem } from 'src/app/layout/models/productModelItem';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { BesyessaProduct, PriceDTO, ProductItemDTO } from 'src/app/layout/models/product';
+import { BesyessaProduct, PriceDTO, ProductItemDTO, ReservationDTO } from 'src/app/layout/models/product';
 import { MyDropdownItem } from 'src/app/layout/models/dropdown-item';
 import { ProductModel } from 'src/app/layout/models/productModel';
 import { Product } from '../api/product';
@@ -69,6 +69,13 @@ export class ProductService {
         return this.http.post<void>(
             this.apiUrl + '/prices',
             price
+        );
+    }
+
+    makeReservation(reservation: ReservationDTO): Observable<void> {
+        return this.http.post<void>(
+            this.apiUrl + '/reservations',
+            reservation
         );
     }
 

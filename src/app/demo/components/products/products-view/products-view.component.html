@@ -98,9 +98,7 @@
                                 styleClass="mb-2"
                             ></p-rating>
                             <span class="text-2xl font-semibold">{{
-                                product.currentPrice?.amount
-                                    ? product.currentPrice?.amount + " TND"
-                                    : ""
+                                (product.currentPrice?.amount ?? 0) + " TND"
                             }}</span>
                         </div>
                         <div
@@ -108,12 +106,10 @@
                         >
                             <p-button
                                 icon="pi pi-shopping-cart"
-                                label="Add to Cart"
+                                label="Loan"
                                 severity="success"
-                                [disabled]="
-                                    product.inventoryStatus === 'OUTOFSTOCK'
-                                "
                                 styleClass="mb-2 p-button-sm"
+                                (click)="openReservationDialog(product)"
                             ></p-button>
                             <p-button
                                 id="product-view-list-edit"
@@ -183,20 +179,15 @@
                             >
                                 <span class="text-2xl font-semibold">
                                     {{
-                                        product.currentPrice?.amount
-                                            ? product.currentPrice?.amount +
-                                              " TND"
-                                            : ""
+                                        (product.currentPrice?.amount ?? 0) +
+                                            " TND"
                                     }}</span
                                 >
                                 <div>
                                     <p-button
                                         icon="pi pi-shopping-cart"
                                         severity="success"
-                                        [disabled]="
-                                            product.inventoryStatus ===
-                                            'OUTOFSTOCK'
-                                        "
+                                        (click)="openReservationDialog(product)"
                                     ></p-button>
                                     <p-button
                                         class="ml-2"

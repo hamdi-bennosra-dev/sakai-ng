@@ -45,11 +45,11 @@
         <ng-template pTemplate="header">
             <tr>
                 <th style="width: 3rem"></th>
-                <th pSortableColumn="brandName">
-                    Brand <p-sortIcon field="brandName"></p-sortIcon>
-                </th>
                 <th pSortableColumn="name">
                     Model <p-sortIcon field="name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="brandName">
+                    Brand <p-sortIcon field="brandName"></p-sortIcon>
                 </th>
                 <th pSortableColumn="minPrice">
                     Price <p-sortIcon field="minPrice"></p-sortIcon>
@@ -82,22 +82,28 @@
                         "
                     ></button>
                 </td>
-                <td style="min-width: 12rem">
-                    {{ product.brandName | titlecase }}
-                </td>
                 <td style="min-width: 16rem">
                     <div class="flex align-items-center">
-                        <span class="flex-1">{{
-                            product.name | titlecase
-                        }}</span>
-                        <img
-                            *ngIf="product.img"
-                            class="shadow-4 flex-2"
-                            [src]="product.img"
-                            [alt]="product.name"
-                            width="100"
-                        />
+                        <div [style.width.%]="50">
+                            <img
+                                *ngIf="product.img"
+                                class="shadow-4 mr-2"
+                                [src]="product.img"
+                                [alt]="product.name"
+                                width="100"
+                            />
+                        </div>
+                        <div [style.width.%]="50">
+                            <strong class="ml-2" [style.fontSize.rem]="1.2">{{
+                                product.name | titlecase
+                            }}</strong>
+                        </div>
                     </div>
+                </td>
+                <td style="min-width: 12rem">
+                    <strong [style.fontSize.rem]="1.2">{{
+                        product.brandName | titlecase
+                    }}</strong>
                 </td>
                 <td style="min-width: 8rem">
                     {{ product.minPrice | currency : "USD" }} -

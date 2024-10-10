@@ -4,6 +4,7 @@ import { ProductService } from 'src/app/demo/service/product.service';
 import { ReservationDTO } from 'src/app/layout/models/product';
 import { addDays, differenceInDays, format, parse } from 'date-fns';
 import { ProductEditDialog } from '../utils/product-edit-dialog';
+import { ToastService } from 'src/app/layout/service/toast.service';
 
 @Component({
     selector: 'app-loan-dialog',
@@ -22,7 +23,8 @@ export class LoanDialogComponent implements ProductEditDialog {
     constructor(
         private productService: ProductService,
         private dialogRef: DynamicDialogRef,
-        private dialogConfig: DynamicDialogConfig
+        private dialogConfig: DynamicDialogConfig,
+        private toastService: ToastService
     ) {
         if (this.dialogConfig.data) {
             const { id, reservations, priceId } = this.dialogConfig.data;
@@ -83,7 +85,7 @@ export class LoanDialogComponent implements ProductEditDialog {
     }
 
     isSaveValid(): boolean {
-        return this.rangeDates?.filter((d: Date) => d != null)?.length >= 2;
+        return this.rangeDates?.filter((d: Date) => d != null)?.length >= 1;
     }
 
     save(): void {
@@ -91,7 +93,7 @@ export class LoanDialogComponent implements ProductEditDialog {
             const reservation = {
                 loanedFrom: format(this.rangeDates[0], this.formatString),
                 loanedUntil: format(
-                    this.rangeDates[this.rangeDates.length - 1],
+                    this.rangeDates[this.rangeDates.length - 1] ?? this.rangeDates[0],
                     this.formatString
                 ),
                 price: {
@@ -104,6 +106,34 @@ export class LoanDialogComponent implements ProductEditDialog {
             this.productService.makeReservation(reservation).subscribe({
                 next: () => this.dialogRef.close(true),
             });
+        }
+    }
+
+    checkRangeSelection() {
+        this.checkDatesInDisabledRange(this.rangeDates, this.disabledDates);
+    }
+
+    private checkDatesInDisabledRange(
+        rangeDates: Date[],
+        disabledDates: Date[]
+    ): void {
+        if (rangeDates.filter((d: Date) => d != null)?.length === 2) {
+            const [startDate, endDate] = rangeDates;
+            const datesToCheck = this.getDatesBetween(startDate, endDate);
+
+            const hasConflict = datesToCheck.some((dateToCheck) =>
+                disabledDates.some(
+                    (disabledDate) =>
+                        disabledDate.getTime() === dateToCheck.getTime()
+                )
+            );
+
+            if (hasConflict) {
+                this.toastService.showError('Conflict with the selected date range! Please choose correct range.')
+                this.rangeDates = [];
+            } else {
+                console.log('No conflicts found in the selected range.');
+            }
         }
     }
 }

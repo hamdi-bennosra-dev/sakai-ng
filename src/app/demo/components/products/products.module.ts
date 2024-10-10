@@ -28,6 +28,7 @@ import { OrderListModule } from 'primeng/orderlist';
 import { ProductDialogComponent } from './product-dialog/product-dialog.component';
 import { LoanDialogComponent } from './loan-dialog/loan-dialog.component';
 import { CalendarModule } from 'primeng/calendar';
+import { ToastService } from 'src/app/layout/service/toast.service';
 
 @NgModule({
     imports: [
@@ -60,6 +61,7 @@ import { CalendarModule } from 'primeng/calendar';
         ConfirmationService,
         DialogService,
         TitleCasePipe,
+        ToastService
     ],
     declarations: [
         TableDemoComponent,

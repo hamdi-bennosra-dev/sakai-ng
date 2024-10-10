@@ -63,6 +63,7 @@
 
 <div class="flex justify-content-end">
     <p-button
+        [disabled]="!isSaveValid()"
         severity="success"
         label="Save"
         icon="pi pi-save"

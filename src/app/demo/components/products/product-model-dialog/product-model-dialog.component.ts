@@ -73,7 +73,7 @@ export class ProductModelDialogComponent {
     }
 
     save() {
-        if (this.name && this.selectedBrand && this.selectedCategory) {
+        if (this.isSaveValid()) {
             const product = new ProductModel();
             product.id = this.uuid;
             product.name = this.name;
@@ -88,14 +88,20 @@ export class ProductModelDialogComponent {
                 : this.productService.saveProductModel(product);
 
             observable.subscribe((result: ProductModel) => {
-                if (this.file)
-                    this.storageService.uploadFile(
-                        'models',
-                        result.id,
-                        this.file
-                    );
-                this.dialogRef.close(true);
+                if (this.file) {
+                    this.storageService
+                        .uploadFile('models', result.id, this.file)
+                        .subscribe({
+                            complete: () => this.dialogRef.close(true),
+                        });
+                } else {
+                    this.dialogRef.close(true);
+                }
             });
         }
+    }
+
+    isSaveValid() {
+        return this.name && this.selectedBrand && this.selectedCategory;
     }
 }

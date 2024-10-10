@@ -33,7 +33,8 @@ export class StorageService {
         });
 
         // Make the POST request to upload the file
-        return this.http.post<string>(url, formData, { headers });
+        const responseType = 'text';
+        return this.http.post(url, formData, { headers, responseType });
     }
 
     private base64ToFile(base64String: string, filename: string): File {

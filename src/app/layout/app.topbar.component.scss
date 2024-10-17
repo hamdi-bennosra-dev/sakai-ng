@@ -1,0 +1,12 @@
+.menu-option {
+    font-size: 1.2rem;
+    margin-right: 1rem;
+    padding: .8rem;
+    &:hover {
+        cursor: pointer;
+        color: rgb(23, 75, 216);
+        background-color: rgb(178, 215, 245);
+        border-radius: 10px;
+        
+    }
+}

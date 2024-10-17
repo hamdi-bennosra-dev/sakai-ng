@@ -1,10 +1,7 @@
-import { Reservation } from "./reservation";
-
 export interface Brand {
-    id: string; 
+    id: string;
     name: string;
     description: string;
-    addedBy: string; 
-    //productModel?: ProductModel[]; 
-  }
-  
+    addedBy: string;
+    //productModel?: ProductModel[];
+}

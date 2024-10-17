@@ -12,3 +12,53 @@ $gutter: 1rem; //for primeflex grid system
 @import "assets/demo/styles/flags/flags.css";
 @import "assets/demo/styles/badges.scss";
 @import "assets/demo/styles/code.scss";
+
+
+.h5 {
+    margin: 1rem 0 !important;
+}
+
+.image-holder {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    background-color: #f0f8ff; // light blueish background for the placeholder
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    margin-inline-end: 2.5rem;
+
+    .uploaded-image {
+        width: 100%;
+        height: 100%;
+        // object-fit: cover; // Ensures the image fits exactly without distortion
+        // object-position: center; // Centers the image within the container
+    }
+
+    .placeholder {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #b0c4de; // Subtle blueish color for the icon
+        font-size: 48px;
+    }
+
+    .file-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    &:hover {
+        border-color: #888; // Change border color on hover for better visibility
+    }
+}

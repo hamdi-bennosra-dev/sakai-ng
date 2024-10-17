@@ -1,0 +1,32 @@
+<div class="flex flex-column align-items-center mb-4">
+    <span class="mb-4" [style.fontSize.rem]="1.2"
+        >Loan From <b>{{ (rangeDates[0] | date : "dd/MM/yyyy") ?? "..." }}</b> -
+        <b>{{
+            (rangeDates[rangeDates.length - 1] ?? rangeDates[0]
+                | date : "dd/MM/yyyy") ?? "..."
+        }}</b></span
+    >
+
+    <p-calendar
+        class="max-w-full"
+        [inline]="true"
+        [(ngModel)]="rangeDates"
+        selectionMode="range"
+        [disabledDates]="disabledDates"
+        [readonlyInput]="true"
+        (onSelect)="checkRangeSelection()"
+        [minDate]="today"
+    />
+</div>
+
+<div class="flex justify-content-end">
+    <p-button
+        [disabled]="!isSaveValid()"
+        severity="success"
+        label="Loan"
+        icon="pi pi-shopping-cart"
+        (click)="save()"
+    />
+</div>
+
+<p-toast></p-toast>

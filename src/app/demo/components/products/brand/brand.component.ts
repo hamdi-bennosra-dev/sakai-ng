@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
 import { BrandService } from 'src/app/demo/service/brand.service';
+import { StorageService } from 'src/app/demo/service/storage.service';
 import { Brand } from 'src/app/layout/models/brand';
 import { AuthService } from 'src/app/layout/service/auth.service';
 
@@ -11,31 +12,47 @@ import { AuthService } from 'src/app/layout/service/auth.service';
 })
 export class BrandComponent implements OnInit {
   brands: Brand[] = [];
-  selectedBrand: Brand = { id: '', name: '', description: '', addedBy: '' };
+  selectedBrand: Brand = { id: '', name: '', description: '', addedBy: '', img: '' };
   dialogVisible: boolean = false;
   isLoading$: Observable<boolean>;
 
-  constructor(private brandService: BrandService, private authService: AuthService) { // Corrected here
-//     this.isLoading$ = this.authService.isLoading$; // Use authService, not authservice
-//     if (this.authService.currentUser$) // Fixed usage
-//         this.authService.logout(); // Fixed usage
-}
+  constructor(private brandService: BrandService, private storageService: StorageService) { // Corrected here
+    //     this.isLoading$ = this.authService.isLoading$; // Use authService, not authservice
+    //     if (this.authService.currentUser$) // Fixed usage
+    //         this.authService.logout(); // Fixed usage
+  }
 
   ngOnInit(): void {
     this.loadBrands();
   }
 
   loadBrands(): void {
-    this.brandService.getAllBrands().subscribe((data) => (this.brands = data));
+    this.brandService.getAllBrands().subscribe(
+      (data) => {
+        this.brands = data;
+        this.brands.forEach((b: Brand) => {
+          this.storageService
+            .downloadFile('brands', b.id)
+            .subscribe({
+              next: (blob: Blob) => {
+                const url = window.URL.createObjectURL(blob);
+                b.img = url; // Set the image URL to display
+              },
+              error: () => (b.img = null),
+            });
+        })
+
+      });
   }
 
   openNewBrandDialog() {
-    this.selectedBrand = { id: '', name: '', description: '', addedBy:''  }; // Nouvelle marque
+    this.selectedBrand = { id: '', name: '', description: '', addedBy: '', img: '' }; // Nouvelle marque
     this.dialogVisible = true;
   }
 
   editBrand(brand: Brand) {
-    this.selectedBrand = { ...brand }; // Cloner l'objet pour éviter les modifications directes
+    console.log('(Brand)', brand)
+    this.selectedBrand = {...brand};
     this.dialogVisible = true;
   }
 
@@ -43,19 +60,31 @@ export class BrandComponent implements OnInit {
     this.brandService.deleteBrand(id).subscribe(() => this.loadBrands());
   }
 
-  saveBrand(brand: Brand) {
+  saveBrand(output: any) {
+    const { brand, file } = output;
+    let saveBrandObs: Observable<Brand> = null;
     if (brand.id) {
       // Mise à jour de la marque existante
-      this.brandService.updateBrand(brand.id, brand).subscribe(() => {
-        this.loadBrands();
-        this.dialogVisible = false; // Fermer le dialogue après la sauvegarde
-      });
+      saveBrandObs = this.brandService.updateBrand(brand.id, brand);
     } else {
       // Création d'une nouvelle marque
-      this.brandService.createBrand(brand).subscribe(() => {
+      saveBrandObs = this.brandService.createBrand(brand);
+    }
+
+    saveBrandObs.subscribe((brand: Brand) => {
+      if (file) {
+        this.storageService.uploadFile(
+          'brands',
+          brand.id,
+          file
+        ).subscribe(() => {
+          this.loadBrands();
+          this.dialogVisible = false; // Fermer le dialogue après la sauvegarde
+        })
+      } else {
         this.loadBrands();
         this.dialogVisible = false; // Fermer le dialogue après la sauvegarde
-      });
-    }
+      }
+    });
   }
 }

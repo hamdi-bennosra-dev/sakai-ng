@@ -49,6 +49,8 @@ export class ProductModelDialogComponent
         });
 
         this.uuid = this.dialogConfig.data?.id;
+        console.log(this.dialogConfig.data?.img);
+        
         this.imageSrc = this.dialogConfig.data?.img;
         if (this.uuid)
             productService

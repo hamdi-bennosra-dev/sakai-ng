@@ -1,0 +1,27 @@
+<!-- <p>brand works!</p> -->
+
+<div class="p-grid p-justify-end mb-3">
+  <button pButton type="button" label="Add New Brand" icon="pi pi-plus" class="p-button-success" (click)="openNewBrandDialog()"></button>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-12 p-md-3" *ngFor="let brand of brands">
+    <div class="card" style="width: 25%;">
+      <div class="p-card-body">
+        <h5>{{ brand.name }}</h5>
+        <p>{{ brand.description }}</p>
+        <button pButton type="button" icon="pi pi-pencil" class="p-button-warning" (click)="editBrand(brand)"></button>
+        <button pButton type="button" icon="pi pi-trash" class="p-button-danger" (click)="deleteBrand(brand.id)"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Dialog for Add/Edit -->
+<app-brand-dialog 
+  [visible]="dialogVisible" 
+  [brand]="selectedBrand" 
+  (brandSaved)="saveBrand($event)">
+</app-brand-dialog>
+
+

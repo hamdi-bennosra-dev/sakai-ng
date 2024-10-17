@@ -29,6 +29,10 @@ import { ProductDialogComponent } from './product-dialog/product-dialog.componen
 import { LoanDialogComponent } from './loan-dialog/loan-dialog.component';
 import { CalendarModule } from 'primeng/calendar';
 import { ToastService } from 'src/app/layout/service/toast.service';
+import { DialogModule } from 'primeng/dialog';
+import { CardModule } from 'primeng/card';
+import { BrandComponent } from './brand/brand.component';
+import { BrandDialogComponent } from './brand-dialog/brand-dialog.component';
 
 @NgModule({
     imports: [
@@ -54,7 +58,10 @@ import { ToastService } from 'src/app/layout/service/toast.service';
         DataViewModule,
 		PickListModule,
 		OrderListModule,
-        CalendarModule
+        CalendarModule,
+        InputTextModule,
+        DialogModule,
+        CardModule
     ],
     providers: [
         MessageService,
@@ -68,7 +75,9 @@ import { ToastService } from 'src/app/layout/service/toast.service';
         ProductModelDialogComponent,
         ProductsViewComponent,
         ProductDialogComponent,
-        LoanDialogComponent
+        LoanDialogComponent,
+        BrandComponent,
+        BrandDialogComponent
     ],
 })
 export class ProductsModule {}

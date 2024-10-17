@@ -1,0 +1,16 @@
+
+.video-player-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .video-player {
+    width: 100%;
+    max-width: 800px; /* Ajustez la taille maximale du lecteur */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  

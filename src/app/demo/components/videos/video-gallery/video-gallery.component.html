@@ -1,0 +1,22 @@
+<!-- <p>video-gallery works!</p> -->
+
+<div *ngIf="loading" class="loading">
+    Chargement des vidéos...
+  </div>
+  
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+  
+  <div *ngIf="!loading && !errorMessage" class="video-gallery">
+    <div *ngFor="let video of videos" class="video-card">
+      <!-- <a routerLink="/player/{{video.id}}"></a>  -->
+      <div class="preview-container">
+        <img [src]="getPreviewUrl(video.id)" alt="{{ video.title }}" class="preview-image" />
+      </div>
+      <div class="video-info">
+        <h3>{{ video.title }}</h3>
+        <p>{{ video.description }}</p>
+      </div>
+    </div>
+  </div>

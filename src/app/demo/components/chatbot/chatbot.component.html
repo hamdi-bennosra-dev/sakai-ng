@@ -1,0 +1,18 @@
+<!-- <p>chatbot works!</p> -->
+<div class="chatbot-container">
+    <div class="chat-history">
+      <div *ngFor="let chat of chatHistory" class="chat-entry">
+        <div class="user-question">You: {{ chat.question }}</div>
+        <div class="bot-response">Bot: {{ chat.response }}</div>
+      </div>
+    </div>
+  
+    <div class="chat-input">
+      <input [(ngModel)]="question" placeholder="Ask a question..." (keyup.enter)="askQuestion()" />
+      <button (click)="askQuestion()">
+        <i class="fa fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+  
+  

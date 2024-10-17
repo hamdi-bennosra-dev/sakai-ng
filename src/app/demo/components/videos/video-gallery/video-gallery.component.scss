@@ -1,0 +1,52 @@
+/* Style pour le conteneur de la galerie */
+.video-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center; /* Centrer les éléments */
+  }
+  
+  /* Style pour chaque carte de vidéo */
+  .video-card {
+    width: 250px; /* Largeur des cadres */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #fff;
+  }
+  
+  /* Style pour le conteneur d'aperçu */
+  .preview-container {
+    width: 100%;
+    height: 150px; /* Taille du cadre pour les images */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0; /* Couleur d'arrière-plan du cadre */
+  }
+  
+  /* Style pour les images */
+  .preview-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* Pour garantir que l'image occupe tout le cadre */
+    border-radius: 5px;
+  }
+  
+  /* Style pour les informations de la vidéo */
+  .video-info {
+    padding: 10px;
+  }
+  
+  .video-info h3 {
+    margin: 10px 0 5px;
+    font-size: 18px;
+  }
+  
+  .video-info p {
+    font-size: 14px;
+    color: #666;
+  }
+  

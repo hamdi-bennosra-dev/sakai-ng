@@ -1,0 +1,157 @@
+<div class="formation-container">
+  <h2 class="title">Liste des Formations</h2>
+  
+  <!-- Paginator at the top of the formation list -->
+  <div class="paginator-container">
+      <p-paginator 
+          (onPageChange)="onPageChange($event)" 
+          [first]="first" 
+          [rows]="rows" 
+          [totalRecords]="120" 
+          [rowsPerPageOptions]="[10, 20, 30]" />
+  </div>
+
+  <!-- Formation List -->
+  <div class="formation-list">
+      <p-card 
+          *ngFor="let formation of formations" 
+          header="{{ formation.type }}" 
+          class="p-card-compact"
+      >
+          <!-- Card Header with Image -->
+          <ng-template pTemplate="header">
+              <img 
+                  alt="Formation Image" 
+                  src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" 
+                  class="formation-image" 
+              />
+          </ng-template>
+
+          <!-- Formation Title -->
+          <div class="formation-title">
+              <strong>{{ formation.title }}</strong>
+          </div>
+
+          <!-- Truncated Description -->
+          <div class="formation-description">
+              {{ formation.description.length > 20 
+                  ? (formation.description | slice: 0:20) + '...' 
+                  : formation.description }}
+          </div>
+
+          <!-- Delete Button -->
+          <ng-template pTemplate="footer">
+            <p-button 
+                icon="pi pi-info-circle" 
+                severity="info"
+                (click)="navigateToFormation(formation.id); $event.stopPropagation()" >
+            </p-button>
+        </ng-template>
+      </p-card>
+  </div>
+
+  <!-- Paginator at the bottom of the formation list -->
+  <div class="paginator-container">
+      <p-paginator 
+          (onPageChange)="onPageChange($event)" 
+          [first]="first" 
+          [rows]="rows" 
+          [totalRecords]="120" 
+          [rowsPerPageOptions]="[10, 20, 30]" />
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="formation-container">
+  <h2 class="title">Liste des Formations</h2> -->
+
+  <!-- Formation List within a PrimeNG card -->
+  <!-- <p-card header="Formations disponibles" [style]="{ width: '100%' }">
+    <ng-template pTemplate="header">
+      <img alt="Card Image" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
+    </ng-template>
+
+    <ul class="formation-list">
+      <li 
+        class="formation-item" 
+        *ngFor="let formation of formations" 
+        (click)="selectFormation(formation)"
+      >
+        <span class="formation-title">{{ formation.title }} ({{ formation.type }})</span>
+        <p-button 
+          icon="pi pi-trash" 
+          class="p-button-danger p-button-sm" 
+          (click)="deleteFormation(formation.id); $event.stopPropagation()" 
+          aria-label="Supprimer la formation"
+        ></p-button>
+      </li>
+    </ul>
+  </p-card> -->
+
+  <!-- Form to create or update a formation inside a PrimeNG card -->
+  <!-- <p-card header="{{ selectedFormation?.id ? 'Modifier Formation' : 'Nouvelle Formation' }}" [style]="{ width: '100%' }">
+    <ng-template pTemplate="header">
+      <img alt="Card Image" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
+    </ng-template>
+
+    <div *ngIf="selectedFormation" class="formation-form">
+      <div class="p-field">
+        <label for="title">Titre</label>
+        <input 
+          id="title" 
+          [(ngModel)]="selectedFormation.title" 
+          placeholder="Titre" 
+          pInputText 
+          class="input-field"
+        />
+      </div>
+
+      <div class="p-field">
+        <label for="type">Type</label>
+        <input 
+          id="type" 
+          [(ngModel)]="selectedFormation.type" 
+          placeholder="Type" 
+          pInputText 
+          class="input-field"
+        />
+      </div>
+
+      <div class="p-field">
+        <label for="description">Description</label>
+        <textarea 
+          id="description" 
+          [(ngModel)]="selectedFormation.description" 
+          placeholder="Description" 
+          pInputTextarea 
+          class="textarea-field"
+        ></textarea>
+      </div>
+
+      <ng-template pTemplate="footer">
+        <div class="button-group flex gap-3 mt-3">
+          <p-button 
+            label="Sauvegarder" 
+            icon="pi pi-check" 
+            (click)="saveFormation()" 
+            class="w-full p-button-success"
+          ></p-button>
+          <p-button 
+            label="Annuler" 
+            icon="pi pi-times" 
+            (click)="resetSelection()" 
+            class="w-full p-button-secondary"
+          ></p-button>
+        </div>
+      </ng-template>
+    </div>
+  </p-card> -->
+<!-- </div> -->

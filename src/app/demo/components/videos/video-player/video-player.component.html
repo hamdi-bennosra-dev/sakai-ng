@@ -1,0 +1,13 @@
+<!-- <p>video-player works!</p> -->
+
+<div *ngIf="loading" class="loading">
+    Chargement de la vidéo...
+  </div>
+  
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+  
+  <div *ngIf="!loading && !errorMessage" class="video-player-container">
+    <video controls *ngIf="videoUrl" [src]="videoUrl" class="video-player"></video>
+  </div>  

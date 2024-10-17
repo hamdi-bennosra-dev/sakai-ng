@@ -17,6 +17,8 @@ import { AppLayoutComponent } from "./layout/app.layout.component";
                     { path: 'pages', loadChildren: () => import('./demo/components/pages/pages.module').then(m => m.PagesModule) },
                     { path: 'products', loadChildren: () => import('./demo/components/products/products.module').then(m => m.ProductsModule) },
                     { path: 'videos', loadChildren: () => import('./demo/components/videos/videos.module').then(m => m.VideosModule) },
+                    { path: 'formation', loadChildren: () => import('./demo/components/formation/formation.module').then(m => m.FormationModule) },
+                    { path: 'chatbot', loadChildren: () => import('./demo/components/chatbot/chatbot.module').then(m => m.ChatbotModule) },
                 ]
             },
             { path: 'auth', loadChildren: () => import('./demo/components/auth/auth.module').then(m => m.AuthModule) },

@@ -4,5 +4,6 @@ export interface Brand {
     description?: string;
     addedBy?: string;
     img?: any; 
+    imgId?: string;
     //productModel?: ProductModel[];
 }

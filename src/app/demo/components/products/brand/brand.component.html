@@ -1,6 +1,4 @@
-<!-- <p>brand works!</p> -->
-
-<div class="card">
+<!-- <div class="card">
   <div class="card-header flex justify-content-between align-items-center">
     <span>Brands</span>
     <button pButton type="button" label="Add New Brand" icon="pi pi-plus" styleClass="mb-2 p-button-sm"
@@ -36,10 +34,52 @@
     </div>
 
   </div>
-</div>
+</div> -->
 
 <!-- Dialog for Add/Edit -->
-<app-brand-dialog [visible]="dialogVisible" [brand]="selectedBrand" (brandSaved)="saveBrand($event)"
+<!-- <app-brand-dialog [visible]="dialogVisible" [brand]="selectedBrand" (brandSaved)="saveBrand($event)"
   [imageSrc]="selectedBrand.img">
 
-</app-brand-dialog>
+</app-brand-dialog> -->
+
+<p-toast></p-toast>
+
+<div class="card">
+    <div class="flex align-items-center justify-content-between">
+        <h5>Brands</h5>
+        <p-button
+            class="mb-4"
+            severity="success"
+            label="New"
+            icon="pi pi-plus"
+            tooltipPosition="bottom"
+            pTooltip="Create new brand"
+            (click)="openBrandEdit()"
+        />
+    </div>
+    <div class="grid">
+        <div class="col-12 md:col-4" *ngFor="let brand of brands">
+            <div class="card">
+                <div class="card-header">
+                    <img *ngIf="brand.img" [src]="brand.img" alt="{{ brand.name }}" style="width: 100%; height: auto;" />
+                    <span *ngIf="!brand.img" class="text-center">No Image</span>
+                </div>
+                <div class="card-body">
+                    <h5>{{ brand.name }}</h5>
+                    <span class="brand-badge">
+                        {{ brand.description }}
+                    </span>
+                </div>
+                <div class="card-footer">
+                    <p-button
+                        severity="info"
+                        icon="pi pi-pencil"
+                        label="Edit"
+                        (click)="openBrandEdit(brand)"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -127,6 +127,10 @@ export class AuthService implements OnDestroy {
     }
   }
 
+  getCurrentUserId(): string | null {
+    return this.currentUserValue ? this.currentUserValue.id : null; // Assurez-vous que 'id' est une propriété de l'utilisateur
+  }
+
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }

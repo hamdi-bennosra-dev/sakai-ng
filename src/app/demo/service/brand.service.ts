@@ -20,6 +20,7 @@ export class BrandService {
     return this.http.get<Brand>(`${this.apiUrl+ '/brands'}/${id}`);
   }
 
+
   createBrand(brand: Brand): Observable<Brand> {
     return this.http.post<Brand>(this.apiUrl+ '/brands', brand);
   }

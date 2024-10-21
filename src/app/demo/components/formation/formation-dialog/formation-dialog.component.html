@@ -1,0 +1,62 @@
+<div class="flex justify-content-center">
+    <div class="image-holder">
+        <ng-container *ngIf="imageSrc; else placeholder">
+            <img [src]="imageSrc" alt="Uploaded Image" class="uploaded-image" />
+        </ng-container>
+
+        <ng-template #placeholder>
+            <div class="placeholder">
+                <i class="pi pi-image"></i>
+            </div>
+        </ng-template>
+
+        <input
+            type="file"
+            (change)="onFileSelected($event)"
+            class="file-input"
+        />
+    </div>
+
+    <div class="p-fluid p-formgrid grid p-2">
+        <div class="field sm:col-12 md:col-6">
+            <label [style.fontWeight]="'bold'" for="name">Name</label>
+            <input id="name" type="text" pInputText [(ngModel)]="name" />
+        </div>
+        <div class="field sm:col-12 md:col-6">
+            <label [style.fontWeight]="'bold'" htmlFor="category"
+                >Category</label
+            >
+            <p-dropdown
+                id="category"
+                appendTo="body"
+                [autoZIndex]="true"
+                [options]="options"
+                [(ngModel)]="selectedCategory"
+            ></p-dropdown>
+        </div>
+
+        <div class="field">
+            <label [style.fontWeight]="'bold'" for="description"
+                >Description</label
+            >
+
+            <textarea
+                rows="4"
+                cols="60"
+                pInputTextarea
+                [(ngModel)]="description"
+            >
+            </textarea>
+        </div>
+    </div>
+</div>
+
+<div class="flex justify-content-end">
+    <p-button
+        [disabled]="!isSaveValid()"
+        severity="success"
+        label="Save"
+        icon="pi pi-save"
+        (click)="save()"
+    />
+</div>

@@ -9,18 +9,38 @@ import { ButtonModule } from 'primeng/button';
 import { FormationItemComponent } from './formation-item/formation-item.component';
 
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-
+import { DataViewModule } from 'primeng/dataview';
+import { FormationDialogComponent } from './formation-dialog/formation-dialog.component';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextModule } from 'primeng/inputtext';
+import { FormationPdfDialogComponent } from './formation-pdf-dialog/formation-pdf-dialog.component';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
-  declarations: [FormationComponent,FormationItemComponent],
-  imports: [
-    CommonModule,
-    FormationRoutingModule,
-    HttpClientModule,
-    CardModule,
-    PaginatorModule,
-    ButtonModule,
-    PdfViewerModule
-  ]
+    declarations: [
+        FormationComponent,
+        FormationItemComponent,
+        FormationDialogComponent,
+        FormationPdfDialogComponent,
+    ],
+    imports: [
+        CommonModule,
+        FormationRoutingModule,
+        HttpClientModule,
+        CardModule,
+        PaginatorModule,
+        ButtonModule,
+        PdfViewerModule,
+        DataViewModule,
+        DynamicDialogModule,
+        ReactiveFormsModule,
+        FormsModule,
+        InputTextareaModule,
+        InputTextModule,
+        FileUploadModule
+    ],
+    providers: [DialogService],
 })
-export class FormationModule { }
+export class FormationModule {}

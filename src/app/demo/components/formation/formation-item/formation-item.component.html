@@ -1,8 +1,22 @@
 <div class="card" [style.paddingBlock.rem]="1.5">
     <div class="card-header flex justify-content-between align-items-center">
-        <strong [style.fontSize.rem]="2">{{ formation.title }}</strong>
-        <p-button icon="pi pi-arrow-left" [rounded]="true" [text]="true" severity="info "
-        [routerLink]="'/formation/formation'" />
+        <div class="flex align-items-center">
+            <strong [style.fontSize.rem]="2">{{ formation.title }}</strong>
+            <p-button
+                class="p-button-sm ml-2"
+                icon="pi pi-plus"
+                [rounded]="true"
+                severity="success"
+                (click)="uploadFormationPDF()"
+            />
+        </div>
+        <p-button
+            icon="pi pi-arrow-left"
+            [rounded]="true"
+            [text]="true"
+            severity="info "
+            [routerLink]="'/formation/formation'"
+        />
     </div>
 </div>
 

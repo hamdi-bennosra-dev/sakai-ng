@@ -1,55 +1,7 @@
-.formation-container {
-  width: 100%; /* Remplit toute la largeur de la page */
-  max-width: 1200px; /* Optionnel : une largeur maximale pour le conteneur */
-  margin: 0 auto; /* Centre le conteneur */
-  padding: 20px; /* Rembourrage interne */
-  background-color: #f9f9f9; /* Couleur de fond */
-  border-radius: 10px; /* Coins arrondis */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+.image-holder {
+  // width: 180px !important;
+  // height: 180px !important;
+  margin-inline-end: 0 !important;
+  margin-block: 0.5rem !important;
+  object-fit: cover !important;
 }
-
-
-.title {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.paginator-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px; /* Espace en bas du paginator */
-}
-
-.formation-list {
-  display: flex;
-  flex-wrap: wrap; /* Permet à plusieurs lignes de se former */
-  justify-content: center; /* Centre les éléments dans le conteneur */
-}
-
-.p-card-compact {
-  width: calc(25% - 20px); /* Chaque carte occupe 25% moins une marge */
-  margin: 10px; /* Espace entre les cartes */
-  box-sizing: border-box; /* Inclut le padding et la marge dans la largeur totale */
-}
-
-.formation-image {
-    width: 100%;
-    height: 90%;
-    object-fit: cover; /* Ajuste l'image à la taille du conteneur */
-}
-
-.formation-title {
-    font-size: 14px;
-    text-align: left;
-    margin-top: 5px;
-    
-}
-
-.formation-description {
-    font-size: 12px;
-    text-align: left;
-}
-
-  
-  

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { StorageService } from 'src/app/demo/service/storage.service';
 import { Formation } from 'src/app/layout/models/formation'; // Assurez-vous que le chemin est correct
 import { FormationService } from 'src/app/layout/service/formation.service';
 
@@ -11,10 +12,12 @@ import { FormationService } from 'src/app/layout/service/formation.service';
 export class FormationItemComponent implements OnInit {
   formationId: string | null = null; // ID de la formation à afficher
   formation: Formation | null = null; // Détails de la formation
+  pdfSrc: any; 
 
   constructor(
     private route: ActivatedRoute, // Pour récupérer l'ID depuis l'URL
     private formationService: FormationService, // Service pour les formations
+    private storageService: StorageService
   ) {}
 
   ngOnInit(): void {
@@ -24,6 +27,14 @@ export class FormationItemComponent implements OnInit {
     // Si l'ID est présent, charger la formation
     if (this.formationId) {
       this.loadFormation(this.formationId);
+      
+      this.storageService.downloadFile('formations', this.formationId).subscribe({
+        next: (blob: Blob) => {
+            const url = window.URL.createObjectURL(blob);
+            this.pdfSrc = url; // Set the image URL to display
+        },
+        error: () => (this.pdfSrc= null),
+    });
     }
   }
 

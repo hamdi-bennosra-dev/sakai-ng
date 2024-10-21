@@ -8,6 +8,8 @@ import { PaginatorModule } from 'primeng/paginator';
 import { ButtonModule } from 'primeng/button';
 import { FormationItemComponent } from './formation-item/formation-item.component';
 
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+
 
 @NgModule({
   declarations: [FormationComponent,FormationItemComponent],
@@ -17,7 +19,8 @@ import { FormationItemComponent } from './formation-item/formation-item.componen
     HttpClientModule,
     CardModule,
     PaginatorModule,
-    ButtonModule
+    ButtonModule,
+    PdfViewerModule
   ]
 })
 export class FormationModule { }

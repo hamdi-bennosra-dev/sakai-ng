@@ -1,34 +1,16 @@
-<div class="formation-item-container" *ngIf="formation">
-    <h2 class="formation-title">{{ formation.title }}</h2>
-    
-    <div class="formation-image">
-        <img 
-            alt="Formation Image" 
-            src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" 
-            style="width: 100%; height: auto; object-fit: cover;"
-        />
+<div class="card" [style.paddingBlock.rem]="1.5">
+    <div class="card-header flex justify-content-between align-items-center">
+        <strong [style.fontSize.rem]="2">{{ formation.title }}</strong>
+        <p-button icon="pi pi-arrow-left" [rounded]="true" [text]="true" severity="info "
+        [routerLink]="'/formation/formation'" />
     </div>
-    
-    <div class="formation-type">
-        <strong>Type:</strong> {{ formation.type }}
-    </div>
+</div>
 
-    <div class="formation-description">
-        <p>{{ formation.description }}</p>
-    </div>
-
-    <!-- <div class="formation-actions">
-        <p-button 
-            label="Modifier" 
-            (click)="editFormation(formation.id)"
-            icon="pi pi-pencil"
-            class="p-button-info"
-        ></p-button>
-        <p-button 
-            label="Supprimer" 
-            (click)="deleteFormation(formation.id)"
-            icon="pi pi-trash"
-            class="p-button-danger"
-        ></p-button>
-    </div> -->
+<div class="pdf-wrapper flex justify-content-center">
+    <pdf-viewer
+        [src]="pdfSrc"
+        [render-text]="true"
+        [original-size]="false"
+        style="width: 95vw; height: 80vh"
+    ></pdf-viewer>
 </div>

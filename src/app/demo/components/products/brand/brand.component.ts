@@ -16,7 +16,7 @@
 //   dialogVisible: boolean = false;
 //   isLoading$: Observable<boolean>;
 
-//   constructor(private brandService: BrandService, 
+//   constructor(private brandService: BrandService,
 //               private storageService: StorageService,
 //               private authSrvice: AuthService) { }
 
@@ -88,7 +88,6 @@
 //   }
 // }
 
-
 import { Component, OnInit } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BrandService } from 'src/app/demo/service/brand.service';
@@ -112,24 +111,29 @@ export class BrandComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.getAllBrands();
+        this.loadBrands();
     }
 
-    getAllBrands() {
-        this.brandService.getAllBrands().subscribe((data: Brand[]) => {
-            this.brands = [...data];
-            this.brands.forEach((brand: Brand) => {
-                // Vous pouvez ajouter ici le code pour télécharger l'image, si nécessaire
+    loadBrands(): void {
+        this.brandService.getAllBrands().subscribe((data) => {
+            this.brands = data;
+            this.brands.forEach((b: Brand) => {
+                this.storageService.downloadFile('brands', b.id).subscribe({
+                    next: (blob: Blob) => {
+                        const url = window.URL.createObjectURL(blob);
+                        b.img = url; // Set the image URL to display
+                    },
+                    error: () => (b.img = null),
+                });
             });
         });
     }
 
     openBrandEdit(brand?: Brand) {
         this.ref = this.dialogService.open(BrandDialogComponent, {
-            header: brand
-                ? `Edit Brand - ${brand.name}`
-                : 'Create a new Brand',
+            header: brand ? `Edit Brand - ${brand.name}` : 'Create a new Brand',
             modal: true,
+            width: '50vw',
             data: {
                 id: brand?.id,
                 img: brand?.img,
@@ -137,7 +141,7 @@ export class BrandComponent implements OnInit {
         });
 
         this.ref.onClose.subscribe((success: boolean) => {
-            if (success) this.getAllBrands();
+            if (success) this.loadBrands();
         });
     }
 }

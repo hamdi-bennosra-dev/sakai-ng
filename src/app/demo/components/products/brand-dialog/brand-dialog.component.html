@@ -1,41 +1,53 @@
-<!-- <p-dialog [(visible)]="visible" [modal]="true" [closable]="false" [header]="brand.id ? 'Edit Brand' : 'Add Brand'">
-  <div class="flex justify-content-between">
+<div class="flex justify-content-center">
     <div class="image-holder">
-      <ng-container *ngIf="imageSrc; else placeholder">
-        <img [src]="imageSrc" alt="Uploaded Image" class="uploaded-image" />
-      </ng-container>
+        <ng-container *ngIf="imageSrc; else placeholder">
+            <img [src]="imageSrc" alt="Uploaded Image" class="uploaded-image" />
+        </ng-container>
 
-      <ng-template #placeholder>
-        <div class="placeholder">
-          <i class="pi pi-image"></i>
-        </div>
-      </ng-template>
+        <ng-template #placeholder>
+            <div class="placeholder">
+                <i class="pi pi-image"></i>
+            </div>
+        </ng-template>
 
-      <input type="file" (change)="onFileSelected($event)" class="file-input" />
+        <input
+            type="file"
+            (change)="onFileSelected($event)"
+            class="file-input"
+        />
     </div>
+
     <div class="p-fluid">
-      <div class="field">
-        <label for="name">Name</label>
-        <input id="name" type="text" pInputText [(ngModel)]="brand.name" />
-      </div>
+        <div class="field">
+            <label for="name">Name</label>
+            <input id="name" type="text" pInputText [(ngModel)]="name" />
+        </div>
 
-      <div class="field">
-        <label for="description">Description</label>
-        <input id="description" type="text" pInputText [(ngModel)]="brand.description" />
-      </div>
+        <div class="field">
+            <label for="description">Description</label>
+
+            <textarea
+                rows="4"
+                cols="30"
+                pInputTextarea
+                [(ngModel)]="description"
+            >
+            </textarea>
+        </div>
     </div>
-  </div>
+</div>
 
-  <p-footer>
-    <button type="button" pButton label="Cancel" class="p-button-secondary" icon="pi pi-times"
-      (click)="hideDialog()"></button>
-    <button type="button" pButton label="Save" class="p-button-primary" icon="pi pi-check" (click)="save()"></button>
-  </p-footer>
-</p-dialog> -->
+<div class="flex justify-content-end">
+    <p-button
+        [disabled]="!isSaveValid()"
+        severity="success"
+        label="Save"
+        icon="pi pi-save"
+        (click)="save()"
+    />
+</div>
 
-
-
-
+<!-- 
 
  <div class="flex justify-content-between align-items-center">
   <div class="image-holder">
@@ -73,4 +85,4 @@
       (click)="save()"
   />
 </div> 
-
+ -->

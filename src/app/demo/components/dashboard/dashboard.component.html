@@ -1,5 +1,5 @@
     <div class="grid">
-        <div class="col-12 lg:col-6 xl:col-3">
+        <!-- <div class="col-12 lg:col-6 xl:col-3">
             <div class="card mb-0">
                 <div class="flex justify-content-between mb-3">
                     <div>
@@ -58,7 +58,58 @@
                 <span class="text-green-500 font-medium">85 </span>
                 <span class="text-500">responded</span>
             </div>
+        </div> -->
+        
+
+        <div class="col-12">
+            <div class="card">
+                <h5>Featured Bands</h5>
+                <div class="grid">
+                    <div class="col-3" *ngFor="let brand of brands | slice:0:4">
+                        <div
+                            class="card m-3 border-1 surface-border align-items-center justify-content-center"
+                        >
+                            <div
+                                class="flex flex-column align-items-center justify-content-center text-center mb-4"
+                            >
+                                <div class="image-holder">
+                                    <ng-container *ngIf="brand.img; else placeholder">
+                                        <img
+                                            [src]="brand.img"
+                                            [alt]="brand.name"
+                                            class="my-4 w-10rem shadow-2"
+                                        />
+                                    </ng-container>
+                                    <ng-template #placeholder>
+                                        <div class="placeholder">
+                                            <i class="pi pi-image"></i>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                                <div
+                                    class="mt-2 text-2xl font-bold"
+                                    pTooltip="{{ brand.description }}"
+                                    tooltipEvent="focus"
+                                    tooltipPosition="bottom"
+                                >
+                                    {{ brand.name }}
+                                </div>
+                            </div>
+                            <a [routerLink]="['products/brandlist']" class="btn btn-primary mt-3">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        
+        
+        
+
+
+
+
 
         <div class="col-12 xl:col-6">
             <div class="card">

@@ -4,6 +4,10 @@ import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
 import { Subscription, debounceTime } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { BrandService } from '../../service/brand.service';
+import { Brand } from 'src/app/layout/models/brand';
+import { StorageService } from '../../service/storage.service';
+
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -20,7 +24,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     subscription!: Subscription;
 
-    constructor(private productService: ProductService, public layoutService: LayoutService) {
+    brands: Brand[] = [];
+
+    constructor(private productService: ProductService,
+                public layoutService: LayoutService,
+                private brandService: BrandService,
+                private storageService: StorageService
+
+    ) {
         this.subscription = this.layoutService.configUpdate$
         .pipe(debounceTime(25))
         .subscribe((config) => {
@@ -29,6 +40,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.loadBrands();
         this.initChart();
         this.productService.getProductsSmall().then(data => this.products = data);
 
@@ -36,6 +48,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
             { label: 'Add New', icon: 'pi pi-fw pi-plus' },
             { label: 'Remove', icon: 'pi pi-fw pi-minus' }
         ];
+    }
+
+    loadBrands(): void {
+        this.brandService.getAllBrands().subscribe((data) => {
+            this.brands = data;
+            this.brands.forEach((b: Brand) => {
+                this.storageService.downloadFile('brands', b.id).subscribe({
+                    next: (blob: Blob) => {
+                        const url = window.URL.createObjectURL(blob);
+                        b.img = url; // Set the image URL to display
+                    },
+                    error: () => (b.img = null),
+                });
+            });
+        });
     }
 
     initChart() {

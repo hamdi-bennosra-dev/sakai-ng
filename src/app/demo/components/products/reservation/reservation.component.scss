@@ -1,0 +1,149 @@
+/* Style de base pour la page */
+.reservation-container {
+  margin: 20px;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #007bff;
+}
+
+/* Style pour la table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  padding: 12px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f8f9fa;
+  color: #007bff;
+  border-bottom: 2px solid #007bff;
+}
+
+.table td {
+  border-bottom: 1px solid #ddd;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f2f2f2;
+}
+
+/* Style pour les boutons */
+.btn {
+  margin: 5px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-info {
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  color: white;
+  border: none;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+/* Loading indicator */
+.loading-indicator {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 1.2rem;
+  color: #007bff;
+}
+
+.loading-indicator i {
+  margin-right: 10px;
+}
+
+/* Dialogues (Details & Edit) */
+.dialog {
+  border: 1px solid #ddd;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  margin: 20px 0;
+  color: #333;
+}
+
+.details-dialog h3, .edit-dialog h3 {
+  display: flex;
+  align-items: center;
+  color: #007bff;
+}
+
+.details-dialog h3 i, .edit-dialog h3 i {
+  margin-right: 10px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+/* Alerte et message vide */
+.alert {
+  text-align: center;
+  padding: 15px;
+  font-size: 1.1rem;
+}
+
+.alert-warning {
+  background-color: #ffc107;
+  color: white;
+}
+
+/* Ajouter un peu de style pour l'état vide de la table */
+.no-reservations {
+  color: #dc3545;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate; /* Utilisez 'separate' pour permettre l'espacement */
+  border-spacing: 5px; /* Espace entre les cellules */
+}
+
+th, td {
+  background-color: white; /* Couleur d'arrière-plan des cellules */
+  padding: 8px; /* Espacement intérieur pour le confort de lecture */
+}
+
+.total-row {
+  background-color: #f1f1f1;
+  font-weight: bold;
+  text-align: right;
+}

@@ -10,8 +10,6 @@ import { StorageService } from '../../service/storage.service';
 import { VideoService } from 'src/app/layout/service/data.service';
 import { VideoMetadata } from 'src/app/layout/models/video-metadata';
 import { PhotoService } from '../../service/photo.service';
-import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
-
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -35,18 +33,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
 
-    get activeIndex(): number {
-        return this._activeIndex;
-    }
-
-    set activeIndex(newValue) {
-        if (this.img && 0 <= newValue && newValue <= this.img.length - 1) {
-            this._activeIndex = newValue;
-        }
-    }
-
-    _activeIndex: number = 2;
-
     responsiveOptions: any[] = [
         {
             breakpoint: '1024px',
@@ -61,6 +47,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
             numVisible: 1
         }
     ];
+
+    get activeIndex(): number {
+        return this._activeIndex;
+    }
+
+    set activeIndex(newValue) {
+        if (this.img && 0 <= newValue && newValue <= this.img.length - 1) {
+            this._activeIndex = newValue;
+        }
+    }
+
+    _activeIndex: number = 2;
 
     constructor(private productService: ProductService,
                 public layoutService: LayoutService,

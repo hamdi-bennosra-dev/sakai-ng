@@ -6,9 +6,9 @@
     <strong class="menu-option" routerLink="">Dashboard</strong>
     <strong class="menu-option" routerLink="/products/list">Products</strong>
     <strong class="menu-option" routerLink="/products/brandlist">Brands</strong>
-    <strong class="menu-option" routerLink="/products/list">Publishers</strong>
-    <strong class="menu-option" routerLink="/products/list">Courses</strong>
-    <strong class="menu-option" routerLink="/videos/upload">Video</strong>
+    <!-- <strong class="menu-option" routerLink="/products/list">Publishers</strong>
+    <strong class="menu-option" routerLink="/products/list">Courses</strong> -->
+    <strong class="menu-option" routerLink="/videos/gallery">Video</strong>
     <strong class="menu-option" routerLink="/formation/formation">Formation</strong>
 
     <!-- <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
@@ -20,7 +20,7 @@
     </button>
 
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <button class="p-link layout-topbar-button">
+        <button class="p-link layout-topbar-button" routerLink="/products/reservation">
             <i class="pi pi-user"></i>
             <span>Profile</span>
         </button>

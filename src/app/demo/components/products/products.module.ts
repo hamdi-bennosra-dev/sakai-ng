@@ -33,6 +33,7 @@ import { DialogModule } from 'primeng/dialog';
 import { CardModule } from 'primeng/card';
 import { BrandComponent } from './brand/brand.component';
 import { BrandDialogComponent } from './brand-dialog/brand-dialog.component';
+import { ReservationComponent } from './reservation/reservation.component';
 
 @NgModule({
     imports: [
@@ -77,7 +78,8 @@ import { BrandDialogComponent } from './brand-dialog/brand-dialog.component';
         ProductDialogComponent,
         LoanDialogComponent,
         BrandComponent,
-        BrandDialogComponent
+        BrandDialogComponent,
+        ReservationComponent
     ],
 })
 export class ProductsModule {}

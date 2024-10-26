@@ -1,0 +1,92 @@
+<div class="reservation-container">
+  <h2>Liste des réservations</h2>
+
+  <!-- Affichage d'un message de chargement -->
+  <div *ngIf="loading" class="loading-indicator">
+    <i class="fas fa-spinner fa-spin"></i> Chargement des réservations...
+  </div>
+
+  <!-- Table des réservations -->
+  <table *ngIf="reservations?.length > 0">
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Loaned On</th>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Loaned From</th>
+        <th>Loaned Until</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let groupKey of Object.keys(groupedReservations)">
+        <!-- Affichage des réservations pour chaque groupe (userId + loanedOn) -->
+        <tr *ngFor="let reservation of groupedReservations[groupKey].reservations">
+          <td>{{ reservation.userId }}</td>
+          <td>{{ reservation.loanedOn | date: 'yyyy-MM-dd' }}</td>
+          <td>{{ reservation.product.reference }}</td>
+          <td>{{ reservation.price.amount }} {{ reservation.price.currency }}</td>
+          <td *ngIf="reservation.loanedFrom">{{ reservation.loanedFrom | date: 'short' }}</td>
+          <td *ngIf="reservation.loanedUntil">{{ reservation.loanedUntil | date: 'short' }}</td>
+          <td>
+            <button (click)="showDetails(reservation)" class="btn btn-info">
+              <i class="fas fa-info-circle"></i>
+            </button>
+            <button (click)="editReservation(reservation)" class="btn btn-warning">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button (click)="deleteReservation(reservation.id)" class="btn btn-danger">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+        <!-- Affichage du prix total pour chaque userId et loanedOn -->
+        <tr>
+          <td colspan="7" class="total-row">
+            <strong>Total Price on {{ groupKey.split('_')[1] }}: 
+              {{ groupedReservations[groupKey].totalPrice }} {{ reservations[0]?.price.currency }}
+            </strong>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+
+  <!-- Aucune réservation trouvée -->
+  <div *ngIf="!loading && reservations?.length === 0" class="alert alert-warning">
+    <i class="fas fa-exclamation-triangle"></i> No reservation founded.
+  </div>
+    <!-- Détails de la réservation -->
+    <div *ngIf="viewMode === 'details'" class="dialog details-dialog">
+      <h3><i class="fas fa-info-circle"></i> Reservation details</h3>
+      <p><strong>ID reservation:</strong> {{ selectedReservation?.id }}</p>
+      <p><strong>Name product model:</strong> {{ selectedReservation?.product.productModel.name }}</p>
+      <p><strong>References:</strong> {{ selectedReservation?.product.reference }}</p>
+      <!-- <p><strong>Date de prêt:</strong> {{ selectedReservation?.loanedOn | date:'short' }}</p>
+      <p><strong>Date début:</strong> {{ selectedReservation?.loanedFrom | date:'short' }}</p>
+      <p><strong>Date fin:</strong> {{ selectedReservation?.loanedUntil | date:'short' }}</p> -->
+      <button (click)="closeDialog()" class="btn btn-secondary">
+        <i class="fas fa-times"></i> close
+      </button>
+    </div>
+  
+    <!-- Modifier la réservation -->
+    <div *ngIf="viewMode === 'edit'" class="dialog edit-dialog">
+      <h3><i class="fas fa-edit"></i> Modifier la réservation</h3>
+      <div class="form-group">
+        <label for="loanedFrom">Date début:</label>
+        <input [(ngModel)]="selectedReservation.loanedFrom" type="date" id="loanedFrom" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="loanedUntil">Date fin:</label>
+        <input [(ngModel)]="selectedReservation.loanedUntil" type="date" id="loanedUntil" class="form-control">
+      </div>
+      <button (click)="saveReservation()" class="btn btn-success">
+        <i class="fas fa-save"></i> Sauvegarder
+      </button>
+      <button (click)="closeDialog()" class="btn btn-secondary">
+        <i class="fas fa-times"></i> Annuler
+      </button>
+    </div>
+</div>

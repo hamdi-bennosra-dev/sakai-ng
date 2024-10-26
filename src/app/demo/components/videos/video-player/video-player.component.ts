@@ -52,7 +52,8 @@ export class VideoPlayerComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(param => {
       console.log(param)
-      this.dataService.findById(param['id'])
+      const id = param['id'];
+      this.dataService.findById(id)
         .then((vmd) => {
           this.videoMetadata = vmd;
 
@@ -63,6 +64,13 @@ export class VideoPlayerComponent implements OnInit {
           if (currentTime) {
             videoPlayer.currentTime = currentTime;
           }
+
+          this.dataService.streamVideo(id).subscribe({
+            next: (data) => {
+              console.log("Stream service", data);
+
+            }
+          })
 
           videoPlayer.ontimeupdate = () => {
             sessionStorage.setItem("currentTime", videoPlayer.currentTime);

@@ -5,3 +5,29 @@
     margin-block: 0.5rem !important;
     object-fit: cover !important;
 }
+
+.image-holder {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  img {
+    width: 10rem;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  .placeholder {
+    width: 10rem;
+    height: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    font-size: 2rem;
+  }
+  
+
+  

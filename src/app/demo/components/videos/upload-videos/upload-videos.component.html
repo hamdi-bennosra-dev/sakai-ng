@@ -1,28 +1,33 @@
-
+<a [routerLink]="['/videos/gallery']" class="btn btn-primary mt-3">
+  Gallery
+</a>
 <form id="uploadForm" name="uploadForm" class="upload-form">
-   <!-- Titre du formulaire  -->
-  <h3 class="form-title">Télécharger une vidéo</h3>
+  <!-- Titre du formulaire  -->
+ <h3 class="form-title">Télécharger une vidéo</h3>
 
-  <!-- Alerte d'erreur -->
-  <div class="alert alert-danger" *ngIf="isError">
-    Une erreur est survenue lors du téléchargement de la vidéo.
-  </div> 
 
-  <!-- Champ de description de la vidéo -->
-  <div class="form-group">
-    <label for="description" class="form-label">Description de la vidéo</label>
-    <input type="text" class="form-control" name="description" id="description" placeholder="Entrez la description de la vidéo" required>
-  </div>
+ <!-- Alerte d'erreur -->
+ <div class="alert alert-danger" *ngIf="isError">
+   Une erreur est survenue lors du téléchargement de la vidéo.
+ </div> 
 
-  <!-- Champ de sélection de fichier vidéo -->
-  <div class="form-group">
-    <label for="videoFile" class="form-label">Sélectionnez une vidéo</label>
-    <input type="file" class="form-control" name="file" id="videoFile" accept="video/*" required>
-  </div>
+ <!-- Champ de description de la vidéo -->
+ <div class="form-group">
+   <label for="description" class="form-label">Description de la vidéo</label>
+   <input type="text" class="form-control" name="description" id="description" placeholder="Entrez la description de la vidéo" required>
+ </div>
 
-  <!-- Boutons d'action -->
-  <div class="form-buttons">
-    <!-- <button type="button" class="btn btn-secondary" (click)="cancel()">Annuler</button> -->
-    <button type="button" class="btn btn-primary" (click)="submit()">Télécharger</button>
-  </div>
+ <!-- Champ de sélection de fichier vidéo -->
+ <div class="form-group">
+   <label for="videoFile" class="form-label">Sélectionnez une vidéo</label>
+   <input type="file" class="form-control" name="file" id="videoFile" accept="video/*" required>
+ </div>
+
+ <!-- Boutons d'action -->
+ <div class="form-buttons">
+   <!-- <button type="button" class="btn btn-secondary" (click)="cancel()">Annuler</button> -->
+   <button type="button" class="btn btn-primary" (click)="submit()">Télécharger</button>
+ </div>
 </form>
+
+<p-toast></p-toast>

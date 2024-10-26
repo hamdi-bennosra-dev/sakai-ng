@@ -7,6 +7,10 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { BrandService } from '../../service/brand.service';
 import { Brand } from 'src/app/layout/models/brand';
 import { StorageService } from '../../service/storage.service';
+import { VideoService } from 'src/app/layout/service/data.service';
+import { VideoMetadata } from 'src/app/layout/models/video-metadata';
+import { PhotoService } from '../../service/photo.service';
+import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -25,11 +29,45 @@ export class DashboardComponent implements OnInit, OnDestroy {
     subscription!: Subscription;
 
     brands: Brand[] = [];
+    videos: VideoMetadata[] = [];
+
+    img: any[] | undefined;
+
+    images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
+
+    get activeIndex(): number {
+        return this._activeIndex;
+    }
+
+    set activeIndex(newValue) {
+        if (this.img && 0 <= newValue && newValue <= this.img.length - 1) {
+            this._activeIndex = newValue;
+        }
+    }
+
+    _activeIndex: number = 2;
+
+    responsiveOptions: any[] = [
+        {
+            breakpoint: '1024px',
+            numVisible: 5
+        },
+        {
+            breakpoint: '768px',
+            numVisible: 3
+        },
+        {
+            breakpoint: '560px',
+            numVisible: 1
+        }
+    ];
 
     constructor(private productService: ProductService,
                 public layoutService: LayoutService,
                 private brandService: BrandService,
-                private storageService: StorageService
+                private storageService: StorageService,
+                private videoService: VideoService,
+                private photoService: PhotoService
 
     ) {
         this.subscription = this.layoutService.configUpdate$
@@ -41,6 +79,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadBrands();
+        this.loadAllVideos();
         this.initChart();
         this.productService.getProductsSmall().then(data => this.products = data);
 
@@ -48,6 +87,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
             { label: 'Add New', icon: 'pi pi-fw pi-plus' },
             { label: 'Remove', icon: 'pi pi-fw pi-minus' }
         ];
+    }
+
+    next() {
+        this.activeIndex++;
+    }
+
+    prev() {
+        this.activeIndex--;
     }
 
     loadBrands(): void {
@@ -64,6 +111,35 @@ export class DashboardComponent implements OnInit, OnDestroy {
             });
         });
     }
+
+    loadAllVideos(): void {
+        this.videoService.getAllVideos().subscribe({
+          next: (data) => {
+            this.videos = data;
+      
+            // Pour chaque vidéo, charger l'aperçu sous forme d'image Blob
+            this.videos.forEach(video => {
+              this.videoService.getPreviewImage(video.id).subscribe({
+                next: (blob) => {
+                  video.previewUrl = URL.createObjectURL(blob); // Convertir le Blob en URL d'image
+                },
+                error: (err) => {
+                  console.error(`Error loading preview for video ${video.id}:`, err);
+                }
+              });
+            });
+          },
+          error: (err) => {
+            console.error('Error loading videos:', err);
+          }
+        });
+      }
+      
+    
+      // Méthode pour générer l'URL de prévisualisation à partir de l'ID vidéo
+      getPreviewUrl(id: number): string {
+        return `http://localhost:8080/v1/video/preview/${id}`;
+      }
 
     initChart() {
         const documentStyle = getComputedStyle(document.documentElement);

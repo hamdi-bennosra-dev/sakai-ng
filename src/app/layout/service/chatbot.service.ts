@@ -6,6 +6,10 @@ import { Injectable } from '@angular/core';
 export class ChatbotService {
 
   private fakeData: { question: string, response: string }[] = [
+    { question: 'Bonjour', response: 'Bonjour, bienvenue au Bessyessa' },
+    { question: 'Hello', response: 'Bonjour, bienvenue au Bessyessa' },
+    { question: 'comment allez vous', response: 'Merci, bien et vous ?' },
+    { question: 'pouvez vous m aidez', response: 'Oui, comment je peux vous aider ?' },
     { question: 'Comment puis-je réserver un studio?', response: 'Vous pouvez réserver un studio en vous connectant à votre compte, puis en sélectionnant l"onglet "Réservation". Choisissez la date et le créneau horaire souhaités, puis validez la réservation.' },
     { question: 'Quels types de matériel multimédia proposez-vous à la location ?', response: 'Nous proposons une large gamme de matériel multimédia, incluant des caméras, des microphones, des éclairages, et bien plus encore. Vous pouvez consulter la liste complète dans la section "Matériel à louer" de notre plateforme.' },
     { question: 'Comment puis-je annuler ma réservation ?', response: ' Pour annuler une réservation, allez dans "Mon compte", puis dans "Mes réservations". Sélectionnez la réservation que vous souhaitez annuler et cliquez sur "Annuler"' },

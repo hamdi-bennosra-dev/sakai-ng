@@ -12,18 +12,15 @@
     <video controls *ngIf="videoUrl" [src]="videoUrl" class="video-player"></video>
   </div>   -->
 
+<div class="card flex justify-content-center">
+    <strong class="card-text mb-4">{{ videoMetadata.description }}</strong>
 
-  <div class="card">
-    <video id="videoPlayer" controls class="card-img-top" #videoPlayer>
-      <source src="{{videoMetadata.streamUrl}}" type="{{videoMetadata.contentType}}">
-      Your browser does not support the video tag.
+    <video id="videoPlayer" #videoPlayer controls class="card-img-top">
+        Your browser does not support the video tag.
     </video>
-    <div class="card-body">
-      <p class="card-text">{{videoMetadata.description}}</p>
-    </div>
-  </div>
+</div>
 
-  <!-- <div class="video-player-container my-4">
+<!-- <div class="video-player-container my-4">
     <h1 class="text-center mb-4">{{ videoMetadata?.title }}</h1>
     <div class="video-container">
       <video

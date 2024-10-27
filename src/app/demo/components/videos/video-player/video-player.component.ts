@@ -1,81 +1,44 @@
-// import { Component, Input, OnInit,ViewChild,ElementRef  } from '@angular/core';
-// import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-// import { VideoService } from 'src/app/layout/service/data.service';
-
-// @Component({
-//   selector: 'app-video-player',
-//   templateUrl: './video-player.component.html',
-//   styleUrls: ['./video-player.component.scss']
-// })
-// export class VideoPlayerComponent implements OnInit {
-//   @Input() videoId: number = 5;  // L'ID de la vidéo à lire
-//   videoUrl: SafeUrl | null = null;  // URL de la vidéo sécurisée pour Angular
-//   loading: boolean = true;
-//   errorMessage: string | null = null;
-
-//   constructor(private videoService: VideoService, private sanitizer: DomSanitizer) {}
-
-//   ngOnInit(): void {
-//     this.loadVideo();
-//   }
-
-//   // Charger la vidéo
-//   loadVideo(): void {
-//     if (this.videoId > 0) {
-//       const streamUrl = `http://localhost:8080/v1/video/stream/${this.videoId}`;
-//       this.videoUrl = this.sanitizer.bypassSecurityTrustUrl(streamUrl); // Permet à Angular de faire confiance à l'URL
-//       this.loading = false;
-//     } else {
-//       this.errorMessage = 'ID de vidéo invalide.';
-//       this.loading = false;
-//     }
-//   }
-// }
-
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { VideoMetadata } from 'src/app/layout/models/video-metadata';
-import { VideoService,VideoMetadataRepresentation } from 'src/app/layout/service/data.service';
+import { VideoService } from 'src/app/layout/service/data.service';
 
 @Component({
-  selector: 'app-video-player',
-  templateUrl: './video-player.component.html',
-  styleUrls: ['./video-player.component.scss']
+    selector: 'app-video-player',
+    templateUrl: './video-player.component.html',
+    styleUrls: ['./video-player.component.scss'],
 })
 export class VideoPlayerComponent implements OnInit {
-  public videoMetadata: VideoMetadata  = new VideoMetadata(0, '', '', '', '');
+    public videoMetadata: VideoMetadata = new VideoMetadata(0, '', '', '', '');
 
-  @ViewChild("videoPlayer") videoPlayerRef!: ElementRef;
+    @ViewChild('videoPlayer') videoPlayerRef!: ElementRef;
 
-  constructor(public dataService: VideoService, private route: ActivatedRoute) { }
+    constructor(
+        public dataService: VideoService,
+        private route: ActivatedRoute
+    ) {}
 
-  ngOnInit(): void {
-    this.route.params.subscribe(param => {
-      console.log(param)
-      const id = param['id'];
-      this.dataService.findById(id)
-        .then((vmd) => {
-          this.videoMetadata = vmd;
-
-          let videoPlayer = this.videoPlayerRef.nativeElement;
-          videoPlayer.load();
-
-          let currentTime = sessionStorage.getItem("currentTime");
-          if (currentTime) {
-            videoPlayer.currentTime = currentTime;
-          }
-
-          this.dataService.streamVideo(id).subscribe({
-            next: (data) => {
-              console.log("Stream service", data);
-
+    ngOnInit(): void {
+        this.route.params.subscribe((param) => {
+            const id = param['id'];
+            if (id) {
+                this.dataService.findById(id).then((vmd) => {
+                    this.videoMetadata = vmd;
+                });
+                this.loadVideo(id);
             }
-          })
+        });
+    }
 
-          videoPlayer.ontimeupdate = () => {
-            sessionStorage.setItem("currentTime", videoPlayer.currentTime);
-          }
-        })
-    })
-  }
+    loadVideo(id: string | number): void {
+        this.dataService.streamVideo(id).subscribe((blob) => {
+            const videoURL = URL.createObjectURL(blob);
+            const video = this.videoPlayerRef.nativeElement;
+            video.src = videoURL;
+            video.load();
+            video.play();
+
+            console.log(video, this.videoPlayerRef.nativeElement)
+        });
+    }
 }

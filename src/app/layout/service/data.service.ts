@@ -5,80 +5,77 @@ import { VideoMetadata } from '../models/video-metadata';
 import { environment } from 'src/environments/environment';
 
 export interface VideoMetadataRepresentation {
-  id: number;
-  title: string;
-  description: string;
-  previewUrl: string;
-  // Add other fields as needed
+    id: number;
+    title: string;
+    description: string;
+    previewUrl: string;
+    // Add other fields as needed
 }
 
 export interface NewVideoRepresentation {
-  title: string;
-  description: string;
-  videoFile: File;
-  previewFile: File;
+    title: string;
+    description: string;
+    videoFile: File;
+    previewFile: File;
 }
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class VideoService {
-  private apiUrl = environment.apiUrl + 'video';
+    private apiUrl = environment.apiUrl + 'video';
 
-  constructor(private http: HttpClient) {} 
+    constructor(private http: HttpClient) {}
 
     // Get all video metadata
-  getAllVideos(): Observable<VideoMetadata[]> {
-    return this.http.get<VideoMetadata[]>(`${this.apiUrl}/all`);
-  }
-
-    // Get preview image for a video
-  getPreviewImage(id: number): Observable<Blob> {
-      return this.http.get(`${this.apiUrl}/preview/${id}`, {
-        responseType: 'blob'
-      });
+    getAllVideos(): Observable<VideoMetadata[]> {
+        return this.http.get<VideoMetadata[]>(`${this.apiUrl}/all`);
     }
 
-  // Get video metadata by ID
-  getVideoById(id: number): Observable<VideoMetadata> {
-    return this.http.get<VideoMetadata>(`${this.apiUrl}/${id}`);
-  }
+    // Get preview image for a video
+    getPreviewImage(id: number): Observable<Blob> {
+        return this.http.get(`${this.apiUrl}/preview/${id}`, {
+            responseType: 'blob',
+        });
+    }
 
-  public findById(id: number) {
-    return this.http.get<VideoMetadata>(`${this.apiUrl}/${id}`).toPromise()
-  }
+    // Get video metadata by ID
+    getVideoById(id: number): Observable<VideoMetadata> {
+        return this.http.get<VideoMetadata>(`${this.apiUrl}/${id}`);
+    }
 
+    public findById(id: number) {
+        return this.http.get<VideoMetadata>(`${this.apiUrl}/${id}`).toPromise();
+    }
 
-  // Stream video by ID with optional range
-  streamVideo(id: number, rangeHeader?: string): Observable<Blob> {
-    const headers = rangeHeader ? new HttpHeaders().set('Range', rangeHeader) : new HttpHeaders();
-    return this.http.get(`${this.apiUrl}/stream/${id}`, {
-      headers,
-      responseType: 'blob'
-    });
-  }
+    // Stream video by ID with optional range
+    streamVideo(id: number | string, rangeHeader?: string): Observable<Blob> {
+        const headers = rangeHeader
+            ? new HttpHeaders().set('Range', rangeHeader)
+            : new HttpHeaders();
+        return this.http.get(`${this.apiUrl}/stream/${id}`, {
+            headers,
+            responseType: 'blob',
+        });
+    }
 
-  // Upload a new video
-  uploadVideo(video: NewVideoRepresentation): Observable<void> {
-    const formData = new FormData();
-    formData.append('title', video.title);
-    formData.append('description', video.description);
-    formData.append('videoFile', video.videoFile);
-    formData.append('previewFile', video.previewFile);
+    // Upload a new video
+    uploadVideo(video: NewVideoRepresentation): Observable<void> {
+        const formData = new FormData();
+        formData.append('title', video.title);
+        formData.append('description', video.description);
+        formData.append('videoFile', video.videoFile);
+        formData.append('previewFile', video.previewFile);
 
-    return this.http.post<void>(`${this.apiUrl}/upload`, formData, {
-      headers: new HttpHeaders().set('enctype', 'multipart/form-data')
-    });
-  }
+        return this.http.post<void>(`${this.apiUrl}/upload`, formData, {
+            headers: new HttpHeaders().set('enctype', 'multipart/form-data'),
+        });
+    }
 
-  public uploadNewVideo(formData: FormData) {
-    return this.http.post(`${this.apiUrl}/upload`, formData).toPromise()
-  }
-  
+    public uploadNewVideo(formData: FormData) {
+        return this.http.post(`${this.apiUrl}/upload`, formData).toPromise();
+    }
 }
-
-
-
 
 // import { Injectable } from '@angular/core';
 // import { HttpClient, HttpHeaders } from '@angular/common/http';
